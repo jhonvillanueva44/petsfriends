@@ -5,7 +5,7 @@ from . import models
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Usuario
-        fields = '_all_'  
+        fields = '__all__'  
 
     def update(self, instance, validated_data):
         if 'foto' not in validated_data or validated_data['foto'] is None:
@@ -16,7 +16,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class ServicioVeterinarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ServicioVeterinario
-        fields = '_all_'
+        fields = '__all__'
         
 # Serializer para Veterinario
 class VeterinarioSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class VeterinarioSerializer(serializers.ModelSerializer):
 class CategoriaServicioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CategoriaServicio
-        fields = '_all_'
+        fields = '__all__'
 
 # Serializer para Servicio
 class ServicioSerializer(serializers.ModelSerializer):
@@ -43,13 +43,13 @@ class ServicioSerializer(serializers.ModelSerializer):
 class DetalleVeterinariaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DetalleVeterinaria
-        fields = '_all_' 
+        fields = '__all__' 
    
 # Serializer para CategoriaProductos    
 class CategoriaProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CategoriaProducto
-        fields = '_all_'
+        fields = '__all__'
         
 # Serializer para Producto  
 class ProductoSerializer(serializers.ModelSerializer):
@@ -62,7 +62,7 @@ class ProductoSerializer(serializers.ModelSerializer):
 class MetodoPagoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MetodoPago
-        fields = '_all_' 
+        fields = '__all__' 
        
 # Serializer para Carrito       
 class CarritoSerializer(serializers.ModelSerializer):
@@ -124,7 +124,7 @@ class MascotaSerializer(serializers.ModelSerializer):
 class HorarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Horario
-        fields = '_all_' 
+        fields = '__all__' 
         
         
 class CitaSerializer(serializers.ModelSerializer):
