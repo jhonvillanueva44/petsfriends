@@ -94,8 +94,7 @@ WSGI_APPLICATION = 'proyecto.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         default='mysql://uxd4qsugweseqyve:g8WC0dRi6BE1ni7bIcUa@bf0yvkv3b0jdqmtda6jz-mysql.services.clever-cloud.com:3306/bf0yvkv3b0jdqmtda6jz',
-        conn_max_age=600,
-        options={'sql_mode': 'STRICT_TRANS_TABLES'}
+        conn_max_age=600
     )
 }
 
