@@ -4,8 +4,6 @@ from cloudinary.models import CloudinaryField
 
 # Serializer para Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
-    foto = CloudinaryField('foto', blank=True, null=True)
-
     class Meta:
         model = models.Usuario
         fields = ['usuario', 'nombres', 'apellidos', 'correo', 'username', 'contraseña', 
