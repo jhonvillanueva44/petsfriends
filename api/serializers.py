@@ -1,11 +1,15 @@
 from rest_framework import serializers
 from . import models 
+from cloudinary.models import CloudinaryField
 
-# Serializer para Usuarios
+# Serializer para Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
+    foto = CloudinaryField('foto', blank=True, null=True)
+
     class Meta:
         model = models.Usuario
-        fields = '__all__'  
+        fields = ['usuario', 'nombres', 'apellidos', 'correo', 'username', 'contraseña', 
+                  'fecha_registro', 'fecha_nacimiento', 'foto', 'telefono', 'direccion']
 
     def update(self, instance, validated_data):
         if 'foto' not in validated_data or validated_data['foto'] is None:

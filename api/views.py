@@ -1,19 +1,26 @@
 from rest_framework import generics
 from . import models
 from . import serializers
+from rest_framework.parsers import MultiPartParser, FormParser
 
-# Vistas para Usuarios
+# Vista para crear y listar usuarios
 class UsuariosListCreate(generics.ListCreateAPIView):
     queryset = models.Usuario.objects.all()
     serializer_class = serializers.UsuarioSerializer
+    parser_classes = (MultiPartParser, FormParser)  
 
+    def perform_create(self, serializer):
+        serializer.save()
+
+# Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Usuario.objects.all()
     serializer_class = serializers.UsuarioSerializer
+    parser_classes = (MultiPartParser, FormParser)  
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['partial'] = True
+        context['partial'] = True  
         return context
     
 # Vista para obtener la lista de especialidades de veterinarios
