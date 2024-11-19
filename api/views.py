@@ -18,9 +18,8 @@ class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
 # Vista para obtener la lista de especialidades de veterinarios
 class ServicioVeterinarioList(generics.ListAPIView):
-    queryset = models.Servicio.objects.all()  # Asegúrate de usar el modelo correcto
-    serializer_class = serializers.ServicioSerializer  # Usar el serializador con CategoriaServicio anidado
-
+    queryset = models.Servicio.objects.all() 
+    serializer_class = serializers.ServicioSerializer  
 
 # Vista para obtener la lista de veterinarios
 class VeterinariosList(generics.ListAPIView):
@@ -56,9 +55,6 @@ class ProductosList(generics.ListAPIView):
 class MetodoPagoList(generics.ListAPIView):
     queryset = models.MetodoPago.objects.all()
     serializer_class = serializers.MetodoPagoSerializer
-    
-    def perform_create(self, serializer):
-            serializer.save()
 
 class MetodoPagoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.MetodoPago.objects.all()
@@ -76,15 +72,14 @@ class CarritoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Carrito.objects.all()
     serializer_class = serializers.CarritoSerializer
     
+# Vistas para ProductoCarrito
 class ProductoCarritoListCreate(generics.ListCreateAPIView):
     serializer_class = serializers.ProductoCarritoSerializer
 
     def get_queryset(self):
-        # Obtener los parámetros 'carritoId' y 'usuarioId' de la URL o de los parámetros de consulta
         carrito_id = self.request.query_params.get('carritoId', None)
         usuario_id = self.request.query_params.get('usuarioId', None)
 
-        # Filtrar por los dos parámetros si están presentes
         queryset = models.ProductoCarrito.objects.all()
 
         if carrito_id is not None:
@@ -96,13 +91,12 @@ class ProductoCarritoListCreate(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+        
 class ProductoCarritoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.ProductoCarritoSerializer
 
     def get_queryset(self):
-        # Obtenemos el 'pk' del producto
         pk = self.kwargs['pk']
-        # Retorna solo el producto que corresponda a un carrito y usuario específicos
         return models.ProductoCarrito.objects.filter(id=pk)
 
     def perform_update(self, serializer):
@@ -123,7 +117,7 @@ class DetalleVentaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.DetalleVenta.objects.all()
     serializer_class = serializers.DetalleVentaSerializer
 
-# Vistas para DetalleVenta
+# Vistas para DetalleCarrito
 class DetalleCarritoListCreate(generics.ListCreateAPIView):
     queryset = models.DetalleCarrito.objects.all()
     serializer_class = serializers.DetalleCarritoSerializer
@@ -134,7 +128,6 @@ class DetalleCarritoListCreate(generics.ListCreateAPIView):
 class DetalleCarritoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.DetalleCarrito.objects.all()
     serializer_class = serializers.DetalleCarritoSerializer
-    
     
 # Vistas para Venta
 class VentaListCreate(generics.ListCreateAPIView):
@@ -153,7 +146,6 @@ class MascotaListCreate(generics.ListCreateAPIView):
     serializer_class = serializers.MascotaSerializer
 
     def get_queryset(self):
-        # Obtener los parámetros de consulta
         usuario_id = self.request.query_params.get('usuario_id', None)
         mascota_id = self.request.query_params.get('mascota_id', None)
         
@@ -168,7 +160,6 @@ class MascotaListCreate(generics.ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        # Guardar la mascota (creación)
         serializer.save()
 
 class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -177,18 +168,15 @@ class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['partial'] = True  # Permite actualizaciones parciales
+        context['partial'] = True  
         return context
 
 class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Mascota.objects.all()
     serializer_class = serializers.MascotaSerializer
 
-
     def get_queryset(self):
-            # Obtenemos el 'pk' del producto
             pk = self.kwargs['pk']
-            # Retorna solo el producto que corresponda a un carrito y usuario específicos
             return models.Mascota.objects.filter(id=pk)
     
     def get_serializer_context(self):
@@ -220,16 +208,15 @@ class CitaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Cita.objects.all()
     serializer_class = serializers.CitaSerializer
 
-    # No es necesario modificar el método get_queryset si usamos pk
     def get_queryset(self):
-        # El pk será pasado automáticamente por Django
         pk = self.kwargs['pk']
         return models.Cita.objects.filter(cita_id=pk)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        context['partial'] = True  # Permite actualizaciones parciales
+        context['partial'] = True  
         return context
+    
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
     queryset = models.HistorialMascota.objects.all()  

@@ -70,15 +70,16 @@ class CarritoSerializer(serializers.ModelSerializer):
         model = models.Carrito 
         fields = ['id', 'usuario'] 
 
-# Serializer para ProductoCarrito con nested serializers
+# Serializer para ProductoCarrito
 class ProductoCarritoSerializer(serializers.ModelSerializer):
-    carrito = CarritoSerializer()  # Incluye los detalles completos del carrito
-    producto = ProductoSerializer()  # Incluye los detalles completos del producto
+    carrito = CarritoSerializer()  
+    producto = ProductoSerializer()  
 
     class Meta:
         model = models.ProductoCarrito
         fields = ['id', 'carrito', 'producto', 'cantidad', 'precio']
-        
+      
+# Serializer para Venta  
 class VentaSerializer(serializers.ModelSerializer):
     metodo_pago = serializers.PrimaryKeyRelatedField(queryset=models.MetodoPago.objects.all())
     carrito = serializers.PrimaryKeyRelatedField(queryset=models.Carrito.objects.all(), required=False)
@@ -88,7 +89,7 @@ class VentaSerializer(serializers.ModelSerializer):
         model = models.Venta
         fields = ['id', 'metodo_pago', 'numero_tarjeta', 'correo', 'fecha_expiracion', 'cvv', 'carrito', 'usuario', 'subtotal', 'total', 'fecha_venta']
 
-# Serializer para DetalleVenta
+# Serializer para DetalleCarrito
 class DetalleCarritoSerializer(serializers.ModelSerializer):
     carrito = CarritoSerializer()
     producto = ProductoSerializer() 
@@ -107,7 +108,7 @@ class DetalleVentaSerializer(serializers.ModelSerializer):
         model = models.DetalleVenta
         fields = ['id', 'carrito', 'producto', 'cantidad', 'precio', 'venta']
         
-        
+# Serializer para Mascota       
 class MascotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Mascota
@@ -119,19 +120,18 @@ class MascotaSerializer(serializers.ModelSerializer):
             validated_data['fotom'] = instance.fotom
         return super().update(instance, validated_data)
 
-    
 # Serializer para Horario  
 class HorarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Horario
         fields = '__all__' 
         
-        
+# Serializer para Cita 
 class CitaSerializer(serializers.ModelSerializer):
-    usuario_id = UsuarioSerializer(required=False)  # Incluir información completa de Usuario
-    mascota_id = MascotaSerializer()  # Incluir información completa de Mascota
-    servicio_id = ServicioSerializer()  # Incluir información completa de Servicio
-    horario_id = HorarioSerializer()  # Incluir información completa de Horario
+    usuario_id = UsuarioSerializer(required=False) 
+    mascota_id = MascotaSerializer()  
+    servicio_id = ServicioSerializer()  
+    horario_id = HorarioSerializer() 
 
     class Meta:
         model = models.Cita
