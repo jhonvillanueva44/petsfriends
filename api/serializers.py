@@ -4,19 +4,19 @@ from cloudinary.models import CloudinaryField
 
 # Serializer para Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         model = models.Usuario
         fields = ['usuario', 'nombres', 'apellidos', 'correo', 'username', 'contraseña', 
-                  'fecha_registro', 'fecha_nacimiento', 'foto', 'foto_url', 'telefono', 'direccion']
+                  'fecha_registro', 'fecha_nacimiento', 'foto', 'telefono', 'direccion']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         
         if instance.foto:
-            representation['foto'] = f'https://res.cloudinary.com/dq2suwtlm/{instance.foto}'
+            representation['foto'] = instance.foto.url
         
-        return representation 
+        return representation
 
     def update(self, instance, validated_data):
         if 'foto' not in validated_data or validated_data['foto'] is None:
