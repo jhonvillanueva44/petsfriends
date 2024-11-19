@@ -187,10 +187,10 @@ class MascotaListCreate(generics.ListCreateAPIView):
         
         queryset = models.Mascota.objects.all()
 
-        if usuario_id is not None:
+        if usuario_id:
             queryset = queryset.filter(usuario_id=usuario_id)
 
-        if mascota_id is not None:
+        if mascota_id:
             queryset = queryset.filter(id=mascota_id)
 
         return queryset

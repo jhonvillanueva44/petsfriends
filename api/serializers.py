@@ -131,9 +131,12 @@ class MascotaSerializer(serializers.ModelSerializer):
         
         if instance.fotom:
             representation['fotom'] = instance.fotom.url
+        
+        return representation 
 
     def update(self, instance, validated_data):
-        if 'fotom' not in validated_data or validated_data['fotom'] is None:
+        fotom = validated_data.get('fotom', None)
+        if fotom is None:
             validated_data['fotom'] = instance.fotom
         return super().update(instance, validated_data)
 
