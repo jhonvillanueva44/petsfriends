@@ -4,10 +4,17 @@ from cloudinary.models import CloudinaryField
 
 # Serializer para Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
+    foto_url = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Usuario
         fields = ['usuario', 'nombres', 'apellidos', 'correo', 'username', 'contraseña', 
-                  'fecha_registro', 'fecha_nacimiento', 'foto', 'telefono', 'direccion']
+                  'fecha_registro', 'fecha_nacimiento', 'foto', 'foto_url', 'telefono', 'direccion']
+
+    def get_foto_url(self, obj):
+        if obj.foto:
+            return obj.foto.url  
+        return None  
 
     def update(self, instance, validated_data):
         if 'foto' not in validated_data or validated_data['foto'] is None:
