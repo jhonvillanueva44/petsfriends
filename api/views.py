@@ -2,15 +2,29 @@ from rest_framework import generics
 from . import models
 from . import serializers
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
+from rest_framework import status
 
 # Vista para crear y listar usuarios
 class UsuariosListCreate(generics.ListCreateAPIView):
     queryset = models.Usuario.objects.all()
     serializer_class = serializers.UsuarioSerializer
-    parser_classes = (MultiPartParser, FormParser)  
+    parser_classes = (MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
-        serializer.save()
+        try:
+            serializer.save()
+        except ValidationError as e:
+            return Response({'error': 'Error en la carga de datos', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': 'Error inesperado', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except Exception as e:
+            return Response({'error': 'Error procesando la solicitud', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 # Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
