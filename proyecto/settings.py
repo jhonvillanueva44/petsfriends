@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'api.apps.ApiConfig',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -93,11 +95,18 @@ WSGI_APPLICATION = 'proyecto.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='mysql://uxd4qsugweseqyve:g8WC0dRi6BE1ni7bIcUa@bf0yvkv3b0jdqmtda6jz-mysql.services.clever-cloud.com:3306/bf0yvkv3b0jdqmtda6jz',
+        default=os.environ.get('DATABASE_URL', default='mysql://usuario:contraseña@localhost:3306/base_de_datos'),
         conn_max_age=600
     )
 }
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

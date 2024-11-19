@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from cloudinary.models import CloudinaryField
 
 # La tabla para usuarios
 class Usuario(models.Model):
@@ -11,7 +12,7 @@ class Usuario(models.Model):
     contraseña = models.CharField(max_length=255)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
-    foto = models.ImageField(upload_to='fotos/', null=True, blank=True)
+    foto = CloudinaryField('foto', blank=True, null=True)
     telefono = models.CharField(max_length=9, null=True, blank=True)
     direccion = models.CharField(max_length=255, null=True, blank=True)
 
