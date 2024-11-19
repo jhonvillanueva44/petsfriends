@@ -126,6 +126,12 @@ class MascotaSerializer(serializers.ModelSerializer):
         fields = ['mascota_id' , 'usuario','nombre', 'especie','raza','fecha_nacimiento',
                 'peso','altura','edad','color','fotom','observaciones','fecha_inscripcion','codigo_identificacion'] 
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        if instance.fotom:
+            representation['fotom'] = instance.fotom.url
+
     def update(self, instance, validated_data):
         if 'fotom' not in validated_data or validated_data['fotom'] is None:
             validated_data['fotom'] = instance.fotom

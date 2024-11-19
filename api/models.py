@@ -12,11 +12,11 @@ class Usuario(models.Model):
     contraseña = models.CharField(max_length=255)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
-    foto = CloudinaryField('foto')
+    foto = CloudinaryField('foto', null=True, blank=True)
     telefono = models.CharField(max_length=9, null=True, blank=True)
     direccion = models.CharField(max_length=255, null=True, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.username
     
     class Meta:
@@ -29,7 +29,7 @@ class ServicioVeterinario(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
     class Meta:
@@ -47,7 +47,7 @@ class Veterinario(models.Model):
     fecha_nacimiento = models.DateField(null=True, blank=True)
     foto = models.ImageField(upload_to='fotos_veterinarios/', null=True, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.nombres} {self.apellidos}"
 
     class Meta:
@@ -60,7 +60,7 @@ class CategoriaServicio(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
     class Meta:
@@ -76,7 +76,7 @@ class Servicio(models.Model):
     categoria = models.ForeignKey(CategoriaServicio, on_delete=models.CASCADE)
     veterinario = models.ForeignKey(Veterinario, on_delete=models.CASCADE)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
     class Meta:
@@ -96,7 +96,7 @@ class DetalleVeterinaria(models.Model):
     twitter = models.URLField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.direccion} ({self.telefono})"
 
     class Meta:
@@ -109,7 +109,7 @@ class CategoriaProducto(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
     class Meta:
@@ -128,7 +128,7 @@ class Producto(models.Model):
     estado = models.BooleanField(default=True)
     imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
     class Meta:
@@ -181,7 +181,7 @@ class ProductoCarrito(models.Model):
             }
         )
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.cantidad} de {self.producto.nombre} en el carrito'
 
     class Meta:
@@ -228,7 +228,7 @@ class Venta(models.Model):
                 precio=producto.precio
             )
 
-    def _str_(self):
+    def __str__(self):
         return f'venta {self.id} - {self.usuario.username}'
 
     class Meta:
@@ -243,7 +243,7 @@ class DetalleVenta(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     venta = models.ForeignKey('Venta', on_delete=models.SET_NULL, null=True, blank=True)
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.cantidad} de {self.producto.nombre} en el carrito'
 
     class Meta:
@@ -262,7 +262,7 @@ class Mascota(models.Model):
     altura = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     edad = models.PositiveIntegerField(null=True, blank=True)
     color = models.CharField(max_length=50)
-    fotom = models.ImageField(upload_to='imagenesmascotas/', null=True, blank=True) 
+    fotom = CloudinaryField('foto', null=True, blank=True)
     observaciones = models.TextField(null=True, blank=True)
     fecha_inscripcion = models.DateTimeField(auto_now_add=True)
     codigo_identificacion = models.CharField(max_length=16, unique=True, editable=False, null=True, blank=True)
@@ -272,7 +272,7 @@ class Mascota(models.Model):
             self.codigo_identificacion = str(uuid.uuid4())[:8]  
         super().save(*args, **kwargs)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.nombre} ({self.especie})"
 
     class Meta:
@@ -284,7 +284,7 @@ class Horario(models.Model):
     horario_id = models.AutoField(primary_key=True)
     hora = models.TimeField(unique=True)  
 
-    def _str_(self):
+    def __str__(self):
         return self.hora.strftime("%H:%M") 
 
     class Meta:
@@ -310,7 +310,7 @@ class Cita(models.Model):
                 self.costo_cita = self.servicio_id.precio
             super().save(*args, **kwargs)
             
-    def _str_(self):
+    def __str__(self):
         return f"Cita para {self.mascota_id.nombre} el {self.fecha_cita} a las {self.horario_id.hora}"
 
     class Meta:
@@ -324,7 +324,7 @@ class HistorialMascota(models.Model):
     cita_id = models.ForeignKey(Cita, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"Historial de {self.mascota_id.nombre} en {self.fecha}"
 
     class Meta:
@@ -339,7 +339,7 @@ class DetalleCarrito(models.Model):
     cantidad = models.PositiveIntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.cantidad} de {self.producto.nombre} en el carrito'
 
     class Meta:

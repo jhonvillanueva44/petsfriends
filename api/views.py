@@ -165,6 +165,21 @@ class VentaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 # Vistas para Mascota
 class MascotaListCreate(generics.ListCreateAPIView):
     serializer_class = serializers.MascotaSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    def perform_create(self, serializer):
+        try:
+            serializer.save()
+        except ValidationError as e:
+            return Response({'error': 'Error en la carga de datos', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': 'Error inesperado', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except Exception as e:
+            return Response({'error': 'Error procesando la solicitud', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         usuario_id = self.request.query_params.get('usuario_id', None)
@@ -179,9 +194,6 @@ class MascotaListCreate(generics.ListCreateAPIView):
             queryset = queryset.filter(id=mascota_id)
 
         return queryset
-
-    def perform_create(self, serializer):
-        serializer.save()
 
 class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Mascota.objects.all()
