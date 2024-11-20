@@ -93,7 +93,7 @@ class CarritoRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Carrito.objects.all()
     serializer_class = serializers.CarritoSerializer
     
-# Vistas para ProductoCarrito
+# Vistas para ProductoCarritos
 class ProductoCarritoListCreate(generics.ListCreateAPIView):
     serializer_class = serializers.ProductoCarritoSerializer
 
