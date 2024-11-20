@@ -36,6 +36,14 @@ class VeterinarioSerializer(serializers.ModelSerializer):
         model = models.Veterinario
         fields = ['veterinario_id', 'nombres', 'apellidos', 'telefono', 'correo', 'especialidad', 'fecha_nacimiento', 'foto']
         
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        if instance.foto:
+            representation['foto'] = instance.foto.url
+        
+        return representation
+        
 # Serializer para CategoriaServicio
 class CategoriaServicioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,6 +76,14 @@ class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Producto
         fields = ['producto_id', 'nombre', 'precio', 'categoria_producto_id', 'stock', 'marca', 'descripcion', 'estado', 'imagen']
+        
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        
+        if instance.imagen:
+            representation['imagen'] = instance.imagen.url
+        
+        return representation
    
 # Serializer para MetodoPago       
 class MetodoPagoSerializer(serializers.ModelSerializer):

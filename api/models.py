@@ -45,7 +45,7 @@ class Veterinario(models.Model):
     correo = models.EmailField(unique=True)
     especialidad_id = models.ForeignKey(ServicioVeterinario, on_delete=models.CASCADE, default=0)
     fecha_nacimiento = models.DateField(null=True, blank=True)
-    foto = models.ImageField(upload_to='fotos_veterinarios/', null=True, blank=True)
+    foto = CloudinaryField('foto', null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombres} {self.apellidos}"
@@ -126,7 +126,7 @@ class Producto(models.Model):
     marca = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
     estado = models.BooleanField(default=True)
-    imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
+    imagen = CloudinaryField('imagen', null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -140,7 +140,7 @@ class MetodoPago(models.Model):
     metodo_id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=20, unique=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.nombre
 
     class Meta:
@@ -152,7 +152,7 @@ class Carrito(models.Model):
     id = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
-    def _str_(self):
+    def __str__(self):
         return f'Carrito de {self.usuario.username}'
 
     class Meta:
