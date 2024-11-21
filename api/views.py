@@ -72,7 +72,7 @@ class ProductosList(generics.ListAPIView):
     queryset = models.Producto.objects.all()
     serializer_class = serializers.ProductoSerializer
     
-# Vista para obtener la lista de métodos de pago
+# Vista para obtener la lista de métodos de pagos
 class MetodoPagoList(generics.ListAPIView):
     queryset = models.MetodoPago.objects.all()
     serializer_class = serializers.MetodoPagoSerializer
