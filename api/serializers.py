@@ -12,10 +12,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        
-        if instance.foto:
+        if not instance.foto:
+            representation['foto'] = "https://res.cloudinary.com/dq2suwtlm/image/upload/v1732220277/slvu8oirip185bswiphg.jpg"
+        else:
             representation['foto'] = instance.foto.url
-        
         return representation
 
     def update(self, instance, validated_data):
