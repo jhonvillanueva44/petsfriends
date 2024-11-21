@@ -17,8 +17,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
         return representation
 
     def update(self, instance, validated_data):
-        if 'foto' not in validated_data or validated_data['foto'] is None:
-            validated_data['foto'] = instance.foto
+        if 'foto' not in validated_data:
+            validated_data['foto'] = instance.foto  
         return super().update(instance, validated_data)
     
 # Serializer para EspecialidadVeterinario
