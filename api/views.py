@@ -13,18 +13,7 @@ class UsuariosListCreate(generics.ListCreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
-        try:
-            serializer.save()
-        except ValidationError as e:
-            return Response({'error': 'Error en la carga de datos', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({'error': 'Error inesperado', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return super().post(request, *args, **kwargs)
-        except Exception as e:
-            return Response({'error': 'Error procesando la solicitud', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
 
 # Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
