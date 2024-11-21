@@ -13,7 +13,10 @@ class UsuariosListCreate(generics.ListCreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def perform_create(self, serializer):
-        serializer.save()
+        try:
+            serializer.save()
+        except Exception as e:
+            return Response({'error': 'Error al crear el usuario', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
