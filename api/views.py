@@ -16,8 +16,24 @@ class UsuariosListCreate(generics.ListCreateAPIView):
         try:
             serializer.save()
         except Exception as e:
-            return Response({'error': 'Error al crear el usuario', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Error al crear el usuario: {str(e)}")
+            
+            return Response({
+                'error': 'Error al crear el usuario',
+                'details': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except Exception as e:
+            return Response({
+                'error': 'Error procesando la solicitud',
+                'details': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
 # Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Usuario.objects.all()
