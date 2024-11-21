@@ -34,7 +34,7 @@ class VeterinarioSerializer(serializers.ModelSerializer):
     especialidad = ServicioVeterinarioSerializer(read_only=True)
     class Meta:
         model = models.Veterinario
-        fields = ['veterinario_id', 'nombres', 'apellidos', 'telefono', 'correo', 'especialidad', 'fecha_nacimiento', 'foto']
+        fields = ['veterinario_id', 'nombres', 'apellidos', 'telefono', 'correo', 'especialidad_id', 'fecha_nacimiento', 'foto']
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)

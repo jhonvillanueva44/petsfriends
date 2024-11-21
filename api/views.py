@@ -39,8 +39,8 @@ class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
 # Vista para obtener la lista de especialidades de veterinarios
 class ServicioVeterinarioList(generics.ListAPIView):
-    queryset = models.Servicio.objects.all() 
-    serializer_class = serializers.ServicioSerializer  
+    queryset = models.ServicioVeterinario.objects.all() 
+    serializer_class = serializers.ServicioVeterinarioSerializer  
 
 # Vista para obtener la lista de veterinarios
 class VeterinariosList(generics.ListAPIView):
