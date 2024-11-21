@@ -25,7 +25,7 @@ class Usuario(models.Model):
         
 # La tabla para especialidades de veterinarios
 class ServicioVeterinario(models.Model):
-    servicio_veterinario_id = models.AutoField(primary_key=True)
+    Servicio_veterinario_id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True, null=True)
 
@@ -43,7 +43,7 @@ class Veterinario(models.Model):
     apellidos = models.CharField(max_length=100)
     telefono = models.CharField(max_length=9)
     correo = models.EmailField(unique=True)
-    especialidad_id = models.ForeignKey(ServicioVeterinario, on_delete=models.CASCADE, default=0, null=True, blank=True)
+    especialidad_id = models.ForeignKey(ServicioVeterinario, on_delete=models.CASCADE, default=0)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     foto = CloudinaryField('foto', null=True, blank=True)
 
