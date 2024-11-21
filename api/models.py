@@ -43,7 +43,7 @@ class Veterinario(models.Model):
     apellidos = models.CharField(max_length=100)
     telefono = models.CharField(max_length=9)
     correo = models.EmailField(unique=True)
-    especialidad_id = models.ForeignKey(ServicioVeterinario, on_delete=models.CASCADE, default=0)
+    especialidad_id = models.ForeignKey(ServicioVeterinario, on_delete=models.CASCADE, default=0, null=True, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     foto = CloudinaryField('foto', null=True, blank=True)
 
