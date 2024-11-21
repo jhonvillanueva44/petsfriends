@@ -18,7 +18,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if 'foto' not in validated_data:
-            validated_data['foto'] = instance.foto  
+            validated_data['foto'] = instance.foto.url
         return super().update(instance, validated_data)
     
 # Serializer para EspecialidadVeterinario
