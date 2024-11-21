@@ -262,7 +262,7 @@ class Mascota(models.Model):
     altura = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     edad = models.PositiveIntegerField(null=True, blank=True)
     color = models.CharField(max_length=50)
-    fotom = CloudinaryField('fotom', default="https://res.cloudinary.com/dq2suwtlm/image/upload/v1732220412/o4md4nczmurccmqvun6y.jpg")
+    fotom = CloudinaryField('fotom', default="image/upload/v1732220412/o4md4nczmurccmqvun6y.jpg")
     observaciones = models.TextField(null=True, blank=True)
     fecha_inscripcion = models.DateTimeField(auto_now_add=True)
     codigo_identificacion = models.CharField(max_length=16, unique=True, editable=False, null=True, blank=True)
