@@ -15,11 +15,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
         if instance.foto:
             representation['foto'] = instance.foto.url
         return representation
-
-    def update(self, instance, validated_data):
-        if 'foto' not in validated_data:
-            validated_data['foto'] = instance.foto.url
-        return super().update(instance, validated_data)
     
 # Serializer para EspecialidadVeterinario
 class ServicioVeterinarioSerializer(serializers.ModelSerializer):
