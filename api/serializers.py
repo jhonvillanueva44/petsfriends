@@ -12,9 +12,16 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        
         if instance.foto:
             representation['foto'] = instance.foto.url
+        
         return representation
+
+    def update(self, instance, validated_data):
+        if 'foto' not in validated_data or validated_data['foto'] is None:
+            validated_data['foto'] = instance.foto
+        return super().update(instance, validated_data)
     
 # Serializer para EspecialidadVeterinario
 class ServicioVeterinarioSerializer(serializers.ModelSerializer):
@@ -138,11 +145,10 @@ class MascotaSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         
-        if not instance.fotom:
-            representation['fotom'] = "https://res.cloudinary.com/dq2suwtlm/image/upload/v1732220412/o4md4nczmurccmqvun6y.jpg"
-        else:
+        if instance.fotom:
             representation['fotom'] = instance.fotom.url
-        return representation
+        
+        return representation 
 
     def update(self, instance, validated_data):
         fotom = validated_data.get('fotom', None)

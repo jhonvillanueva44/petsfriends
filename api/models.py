@@ -12,7 +12,7 @@ class Usuario(models.Model):
     contraseña = models.CharField(max_length=255)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
-    foto = CloudinaryField('foto', default="image/upload/v1732220277/slvu8oirip185bswiphg.jpg")
+    foto = CloudinaryField('foto', null=True, blank=True)
     telefono = models.CharField(max_length=9, null=True, blank=True)
     direccion = models.CharField(max_length=255, null=True, blank=True)
 
@@ -262,7 +262,7 @@ class Mascota(models.Model):
     altura = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     edad = models.PositiveIntegerField(null=True, blank=True)
     color = models.CharField(max_length=50)
-    fotom = CloudinaryField('fotom', default="image/upload/v1732220412/o4md4nczmurccmqvun6y.jpg")
+    fotom = CloudinaryField('fotom', null=True, blank=True)
     observaciones = models.TextField(null=True, blank=True)
     fecha_inscripcion = models.DateTimeField(auto_now_add=True)
     codigo_identificacion = models.CharField(max_length=16, unique=True, editable=False, null=True, blank=True)

@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     
     # URLs para Usuarios
-    path('usuarios/', views.UsuariosList.as_view(), name='usuarios-list'), 
+    path('usuarios/', views.UsuariosListCreate.as_view(), name='usuarios-list-create'),
     path('usuarios/<int:pk>/', views.UsuariosRetrieveUpdateDestroy.as_view(), name='usuarios-retrieve-update-destroy'),
     
     # URL para EspecialidadVeterinario

@@ -6,11 +6,26 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
 
-# Vista listar usuarios
-class UsuariosList(generics.ListAPIView):
+# Vista para crear y listar usuarios
+class UsuariosListCreate(generics.ListCreateAPIView):
     queryset = models.Usuario.objects.all()
     serializer_class = serializers.UsuarioSerializer
-            
+    parser_classes = (MultiPartParser, FormParser)
+
+    def perform_create(self, serializer):
+        try:
+            serializer.save()
+        except ValidationError as e:
+            return Response({'error': 'Error en la carga de datos', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': 'Error inesperado', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except Exception as e:
+            return Response({'error': 'Error procesando la solicitud', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 # Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Usuario.objects.all()
@@ -24,8 +39,8 @@ class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
 # Vista para obtener la lista de especialidades de veterinarios
 class ServicioVeterinarioList(generics.ListAPIView):
-    queryset = models.ServicioVeterinario.objects.all() 
-    serializer_class = serializers.ServicioVeterinarioSerializer  
+    queryset = models.Servicio.objects.all() 
+    serializer_class = serializers.ServicioSerializer  
 
 # Vista para obtener la lista de veterinarios
 class VeterinariosList(generics.ListAPIView):
