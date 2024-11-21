@@ -6,33 +6,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
 
-# Vista para crear y listar usuarios
-class UsuariosListCreate(generics.ListCreateAPIView):
+# Vista listar usuarios
+class UsuariosList(generics.ListAPIView):
     queryset = models.Usuario.objects.all()
     serializer_class = serializers.UsuarioSerializer
-    parser_classes = (MultiPartParser, FormParser)
-
-    def perform_create(self, serializer):
-        try:
-            serializer.save()
-        except Exception as e:
-            import logging
-            logger = logging.getLogger(__name__)
-            logger.error(f"Error al crear el usuario: {str(e)}")
-            
-            return Response({
-                'error': 'Error al crear el usuario',
-                'details': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return super().post(request, *args, **kwargs)
-        except Exception as e:
-            return Response({
-                'error': 'Error procesando la solicitud',
-                'details': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
 # Vista para recuperar, actualizar y eliminar usuarios
 class UsuariosRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
