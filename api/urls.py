@@ -59,6 +59,7 @@ urlpatterns = [
     path('mascotas/', views.MascotaListCreate.as_view(), name='mascota-list-create'),
     path('mascotas/<int:pk>/', views.MascotaRetrieveUpdateDestroy.as_view(), name='mascota-retrieve-update-destroy'),
     path('mascotas/<int:mascota_id>/<int:usuario_id>/', views.MascotaListCreate.as_view(), name='mascota-list-create'),
+    path('mascotas/usuario/<int:usuario_id>/', views.MascotaPorUsuario.as_view(), name='mascota-por-usuario'),
 
     # URL para Horario
     path('horarios/', views.HorarioList.as_view(), name='horario-list'),

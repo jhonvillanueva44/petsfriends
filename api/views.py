@@ -194,6 +194,13 @@ class MascotaListCreate(generics.ListCreateAPIView):
             queryset = queryset.filter(id=mascota_id)
 
         return queryset
+    
+class MascotaPorUsuario(generics.ListAPIView):
+    serializer_class = serializers.MascotaSerializer
+
+    def get_queryset(self):
+        usuario_id = self.kwargs['usuario_id']
+        return models.Mascota.objects.filter(usuario_id=usuario_id)
 
 class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Mascota.objects.all()
