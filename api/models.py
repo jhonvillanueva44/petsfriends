@@ -127,7 +127,7 @@ class Producto(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     estado = models.BooleanField(default=True)
     imagen = CloudinaryField('imagen', null=True, blank=True)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
+    fecha_registro = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.nombre
