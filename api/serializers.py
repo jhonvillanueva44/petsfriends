@@ -75,7 +75,7 @@ class ProductoSerializer(serializers.ModelSerializer):
     categoria_producto_id = CategoriaProductoSerializer(read_only=True)
     class Meta:
         model = models.Producto
-        fields = ['producto_id', 'nombre', 'precio', 'categoria_producto_id', 'stock', 'marca', 'descripcion', 'estado', 'imagen']
+        fields = ['producto_id', 'nombre', 'precio', 'categoria_producto_id', 'stock', 'marca', 'descripcion', 'estado', 'imagen', 'fecha_registro']
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -139,7 +139,7 @@ class DetalleVentaSerializer(serializers.ModelSerializer):
 class MascotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Mascota
-        fields = ['mascota_id' , 'usuario','nombre', 'especie','raza','fecha_nacimiento',
+        fields = ['mascota_id' , 'usuario','nombre', 'especie','raza', 'genero','fecha_nacimiento',
                 'peso','altura','edad','color','fotom','observaciones','fecha_inscripcion','codigo_identificacion'] 
 
     def to_representation(self, instance):
