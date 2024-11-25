@@ -127,6 +127,7 @@ class Producto(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     estado = models.BooleanField(default=True)
     imagen = CloudinaryField('imagen', null=True, blank=True)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nombre
@@ -193,7 +194,7 @@ class ProductoCarrito(models.Model):
 # Tabla para venta
 class Venta(models.Model):
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.CASCADE)
-    numero_tarjeta = models.PositiveIntegerField(null=True)
+    numero_tarjeta = models.CharField(max_length=20)
     correo = models.EmailField(blank=True, null=True)
     fecha_expiracion = models.DateField(blank=True, null=True)
     cvv = models.PositiveIntegerField(null=True)
@@ -257,6 +258,7 @@ class Mascota(models.Model):
     nombre = models.CharField(max_length=100)
     especie = models.CharField(max_length=50)
     raza = models.CharField(max_length=100)
+    genero = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField(null=True, blank=True)
     peso = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     altura = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
