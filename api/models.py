@@ -194,7 +194,7 @@ class ProductoCarrito(models.Model):
 # Tabla para venta
 class Venta(models.Model):
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.CASCADE)
-    numero_tarjeta = models.CharField(max_length=20)
+    numero_tarjeta = models.CharField(max_length=20, null=True)
     correo = models.EmailField(blank=True, null=True)
     fecha_expiracion = models.DateField(blank=True, null=True)
     cvv = models.PositiveIntegerField(null=True)
