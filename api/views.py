@@ -210,19 +210,6 @@ class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         context = super().get_serializer_context()
         context['partial'] = True  
         return context
-
-class MascotaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Mascota.objects.all()
-    serializer_class = serializers.MascotaSerializer
-
-    def get_queryset(self):
-            pk = self.kwargs['pk']
-            return models.Mascota.objects.filter(id=pk)
-    
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['partial'] = True 
-        return context
     
 # Vista para obtener la lista de horarios
 class HorarioList(generics.ListAPIView):
