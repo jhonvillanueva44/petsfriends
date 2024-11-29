@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     
@@ -72,8 +71,5 @@ urlpatterns = [
     # URL para HistorialMascota
     path('historial-mascotas/', views.HistorialMascotaList.as_view(), name='historial-mascotas-list'),
     
-    
-    path('token/', views.UsuarioTokenObtainView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
 ]
