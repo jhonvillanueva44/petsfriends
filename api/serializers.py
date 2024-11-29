@@ -193,12 +193,12 @@ class UsuarioTokenSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         username = attrs.get('username')
-        contraseña = attrs.get('contraseña')
 
-        user = authenticate(username=username, password=contraseña)
-
-        if not user:
-            raise serializers.ValidationError("Las credenciales son incorrectas")
-
-        attrs['usuario'] = user
+        try:
+            usuario = models.Usuario.objects.get(username=username)
+        except models.Usuario.DoesNotExist:
+            raise serializers.ValidationError("Usuario no encontrado")
+        
+        attrs['usuario'] = usuario
         return attrs
+

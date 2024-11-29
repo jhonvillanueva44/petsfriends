@@ -263,13 +263,14 @@ class HistorialMascotaList(generics.ListAPIView):
     serializer_class = serializers.HistorialMascotaSerializer
     
   
-    
+
 class UsuarioTokenObtainView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = serializers.UsuarioTokenSerializer(data=request.data)
-
+        
         if serializer.is_valid():
             usuario = serializer.validated_data['usuario']
+            
             refresh = RefreshToken.for_user(usuario)
 
             return Response({
@@ -278,4 +279,3 @@ class UsuarioTokenObtainView(APIView):
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
