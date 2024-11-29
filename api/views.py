@@ -12,7 +12,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Usuario
 from .serializers import UsuarioSerializer
-from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.exceptions import AuthenticationFailed
 
 # Vista para crear y listar usuarios
@@ -262,19 +261,4 @@ class HistorialMascotaList(generics.ListAPIView):
     queryset = models.HistorialMascota.objects.all()  
     serializer_class = serializers.HistorialMascotaSerializer
     
-  
 
-class UsuarioTokenObtainView(APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = serializers.UsuarioTokenSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            usuario = serializer.validated_data['usuario']
-            refresh = RefreshToken.for_user(usuario)
-
-            return Response({
-                'access': str(refresh.access_token),
-                'refresh': str(refresh)
-            }, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
