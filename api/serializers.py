@@ -200,7 +200,7 @@ class UsuarioTokenSerializer(serializers.Serializer):
         except models.Usuario.DoesNotExist:
             raise serializers.ValidationError("Usuario no encontrado")
         
-        if not check_password(contraseña, usuario.contraseña):
+        if usuario.contraseña != contraseña:
             raise serializers.ValidationError("La contraseña es incorrecta")
 
         attrs['usuario'] = usuario
