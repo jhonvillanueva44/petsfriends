@@ -262,13 +262,14 @@ class HistorialMascotaList(generics.ListAPIView):
     queryset = models.HistorialMascota.objects.all()  
     serializer_class = serializers.HistorialMascotaSerializer
     
-
+  
+    
 class UsuarioTokenObtainView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = serializers.UsuarioTokenSerializer(data=request.data)
+
         if serializer.is_valid():
             usuario = serializer.validated_data['usuario']
-
             refresh = RefreshToken.for_user(usuario)
 
             return Response({
