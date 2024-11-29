@@ -16,7 +16,6 @@ import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from datetime import timedelta
 
 
 MEDIA_URL = '/media/'

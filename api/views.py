@@ -5,18 +5,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .models import Usuario
-from .serializers import UsuarioSerializer
-from rest_framework.exceptions import AuthenticationFailed
 
 # Vista para crear y listar usuarios
 class UsuariosListCreate(generics.ListCreateAPIView):
-    
     queryset = models.Usuario.objects.all()
     serializer_class = serializers.UsuarioSerializer
     parser_classes = (MultiPartParser, FormParser)
@@ -53,9 +44,6 @@ class ServicioVeterinarioList(generics.ListAPIView):
 
 # Vista para obtener la lista de veterinarios
 class VeterinariosList(generics.ListAPIView):
-    
-    permission_classes = [IsAuthenticated]
-    
     queryset = models.Veterinario.objects.all()
     serializer_class = serializers.VeterinarioSerializer
     

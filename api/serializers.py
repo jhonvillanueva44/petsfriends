@@ -1,8 +1,5 @@
 from rest_framework import serializers
 from . import models 
-from cloudinary.models import CloudinaryField
-from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import check_password
 
 # Serializer para Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
