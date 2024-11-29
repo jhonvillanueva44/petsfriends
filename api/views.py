@@ -270,7 +270,6 @@ class UsuarioTokenObtainView(APIView):
         
         if serializer.is_valid():
             usuario = serializer.validated_data['usuario']
-            
             refresh = RefreshToken.for_user(usuario)
 
             return Response({
