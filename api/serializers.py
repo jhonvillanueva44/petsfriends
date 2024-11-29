@@ -183,3 +183,19 @@ class HistorialMascotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HistorialMascota
         fields = ['historial_id', 'mascota_id', 'cita_id','fecha']
+        
+        
+        
+class UsuarioTokenSerializer(serializers.Serializer):
+    username = serializers.CharField()
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+
+        try:
+            usuario = models.Usuario.objects.get(username=username)
+        except models.Usuario.DoesNotExist:
+            raise serializers.ValidationError("Usuario no encontrado")
+
+        attrs['usuario'] = usuario  
+        return attrs
