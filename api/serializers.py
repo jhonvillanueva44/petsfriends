@@ -2,6 +2,7 @@ from rest_framework import serializers
 from . import models 
 from cloudinary.models import CloudinaryField
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password
 
 # Serializer para Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -185,20 +186,22 @@ class HistorialMascotaSerializer(serializers.ModelSerializer):
         model = models.HistorialMascota
         fields = ['historial_id', 'mascota_id', 'cita_id','fecha']
         
-        
-        
+
 class UsuarioTokenSerializer(serializers.Serializer):
     username = serializers.CharField()
-    contraseña = serializers.CharField(write_only=True)  
+    contraseña = serializers.CharField(write_only=True) 
 
     def validate(self, attrs):
         username = attrs.get('username')
+        contraseña = attrs.get('contraseña')
 
         try:
             usuario = models.Usuario.objects.get(username=username)
         except models.Usuario.DoesNotExist:
             raise serializers.ValidationError("Usuario no encontrado")
         
+        if not check_password(contraseña, usuario.contraseña):
+            raise serializers.ValidationError("La contraseña es incorrecta")
+
         attrs['usuario'] = usuario
         return attrs
-
