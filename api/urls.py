@@ -67,6 +67,7 @@ urlpatterns = [
     # URLs para Cita
     path('citas/', views.CitaListCreate.as_view(), name='cita-list-create'),
     path('citas/<int:pk>/<int:usuario_id>/', views.CitaRetrieveUpdateDestroy.as_view(), name='cita-retrieve-update-destroy'),
+    path('citas/usuario/<int:usuario_id>/', views.CitasPorUsuario.as_view(), name='citas-por-usuario'),
  
     # URL para HistorialMascota
     path('historial-mascotas/', views.HistorialMascotaList.as_view(), name='historial-mascotas-list'),

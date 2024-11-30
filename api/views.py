@@ -244,6 +244,13 @@ class CitaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         context['partial'] = True  
         return context
     
+class CitasPorUsuario(generics.ListAPIView):
+    serializer_class = serializers.CitaSerializer
+
+    def get_queryset(self):
+        usuario_id = self.kwargs['usuario_id']
+        return models.Mascota.objects.filter(usuario_id=usuario_id)
+    
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
     queryset = models.HistorialMascota.objects.all()  
