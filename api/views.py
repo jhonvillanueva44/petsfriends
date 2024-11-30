@@ -249,7 +249,7 @@ class CitasPorUsuario(generics.ListAPIView):
 
     def get_queryset(self):
         usuario_id = self.kwargs['usuario_id']
-        return models.Mascota.objects.filter(usuario_id=usuario_id)
+        return models.Cita.objects.filter(usuario_id=usuario_id)
     
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
