@@ -163,10 +163,10 @@ class HorarioSerializer(serializers.ModelSerializer):
         
 # Serializer para Cita 
 class CitaSerializer(serializers.ModelSerializer):
-    usuario_id = UsuarioSerializer(required=False) 
-    mascota_id = MascotaSerializer()  
-    servicio_id = ServicioSerializer()  
-    horario_id = HorarioSerializer() 
+    usuario_id = serializers.PrimaryKeyRelatedField(queryset=models.Usuario.objects.all(), required=False)
+    mascota_id = serializers.PrimaryKeyRelatedField(queryset=models.Mascota.objects.all())
+    servicio_id = serializers.PrimaryKeyRelatedField(queryset=models.Servicio.objects.all())
+    horario_id = serializers.PrimaryKeyRelatedField(queryset=models.Horario.objects.all())
 
     class Meta:
         model = models.Cita

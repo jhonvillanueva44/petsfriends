@@ -217,7 +217,7 @@ class HorarioList(generics.ListAPIView):
     serializer_class = serializers.HorarioSerializer
     
 # Vistas para Cita
-class CitaListCreate(generics.ListAPIView):
+class CitaListCreate(generics.ListCreateAPIView):
     queryset = models.Cita.objects.all()
     serializer_class = serializers.CitaSerializer
 
