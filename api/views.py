@@ -57,6 +57,12 @@ class ServiciosList(generics.ListAPIView):
     queryset = models.Servicio.objects.all()
     serializer_class = serializers.ServicioSerializer
     
+class ServicioDetail(generics.RetrieveAPIView):
+    queryset = models.Servicio.objects.all()
+    serializer_class = serializers.ServicioSerializer
+    lookup_field = 'servicio_id'
+    
+    
 # Vista para obtener la lista de los detalles de la veterinaria
 class DetalleVeterinariaList(generics.ListAPIView):
     queryset = models.DetalleVeterinaria.objects.all()

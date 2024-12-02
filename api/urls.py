@@ -18,6 +18,7 @@ urlpatterns = [
     
     # URL para Servicio
     path('servicios/', views.ServiciosList.as_view(), name='servicios-list'),
+    path('servicios/<int:servicio_id>/', views.ServicioDetail.as_view(), name='servicio-detail'), 
     
     # URL para DetalleVeterinaria
     path('detalle-veterinaria/', views.DetalleVeterinariaList.as_view(), name='detalle-veterinaria-list'),
