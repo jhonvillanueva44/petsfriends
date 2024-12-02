@@ -1,0 +1,71 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Productos</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Productos</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles del Producto</h3>
+        <a href="{% url 'table-productos' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ producto.producto_id }}</dd>
+
+          <dt class="col-sm-3">Nombre:</dt>
+          <dd class="col-sm-9">{{ producto.nombre }}</dd>
+
+          <dt class="col-sm-3">Precio:</dt>
+          <dd class="col-sm-9">{{ producto.precio }}</dd>
+
+          <dt class="col-sm-3">Stock:</dt>
+          <dd class="col-sm-9">{{ producto.stock }}</dd>
+
+          <dt class="col-sm-3">Marca:</dt>
+          <dd class="col-sm-9">{{ producto.marca }}</dd>
+
+          <dt class="col-sm-3">Estado:</dt>
+          <dd class="col-sm-9">{% if producto.estado %}Activo{% else %}Inactivo{% endif %}</dd>
+
+          <dt class="col-sm-3">Descripción:</dt>
+          <dd class="col-sm-9">
+            {% if producto.descripcion %}
+              {{ producto.descripcion }}
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+
+          <dt class="col-sm-3">Imagen:</dt>
+          <dd class="col-sm-9">
+            {% if producto.imagen %}
+              <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-fluid">
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+          <dt class="col-sm-3">Fecha registro:</dt>
+          <dd class="col-sm-9">{{ producto.fecha_registro }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'cloudinary',
     'cloudinary_storage',
+    'veterinaria.apps.VeterinariaConfig',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'veterinaria.middleware.SuperuserRequiredMiddleware', 
 ]
 
 ROOT_URLCONF = 'proyecto.urls'

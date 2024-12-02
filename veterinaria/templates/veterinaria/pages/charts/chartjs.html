@@ -1,0 +1,435 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+
+<style>
+    #chart-animal-type {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-animal-type-specie {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-pet-age {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-pet-sex {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-pet-birthdate {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-pet-register {
+        width: 100%;
+        height: 400px;
+    }
+</style>
+
+<nav class="navbar navbar-expand navbar-light bg-white"
+    style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Charts JS</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Charts JS</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Especies de Mascotas</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-animal-type">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const species = JSON.parse('{{ species_json|escapejs }}');
+            const totals = JSON.parse('{{ totals_json|escapejs }}');
+
+            const option = {
+                xAxis: {
+                    type: 'value',
+                },
+                yAxis: {
+                    type: 'category',
+                    data: species,
+                    axisLabel: {
+                        interval: 0,
+                    }
+                },
+                series: [
+                    {
+                        name: 'Total de Mascotas',
+                        type: 'bar',
+                        data: totals,
+                        label: {
+                            show: true,
+                            position: 'right',
+                        },
+                        itemStyle: {
+                            color: function (params) {
+                                const colors = ['#e6f0af', '#e8ed76', '#ffcd57'];
+                                return colors[params.dataIndex % 3];
+                            }
+                        }
+                    }
+                ],
+                title: {
+                    text: 'Total de Mascotas por Especie',
+                    left: 'center',
+                    top: '10px',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                }
+            };
+
+            var myChart = echarts.init(document.getElementById('chart-animal-type'));
+
+            myChart.setOption(option);
+        </script>
+
+        <div class="col-lg-8 col-md-12 col-sm-24">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Todas la Especies de Mascotas</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-animal-type-specie">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const species_all = JSON.parse('{{ species_all_json|escapejs }}');
+            const totals_all = JSON.parse('{{ totals_all_json|escapejs }}');
+
+            const option_all = {
+                xAxis: {
+                    type: 'category',
+                    data: species_all,
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                series: [
+                    {
+                        name: 'Total de Mascotas',
+                        type: 'bar',
+                        data: totals_all,
+                        label: {
+                            show: true,
+                            position: 'top',
+                        },
+                        itemStyle: {
+                            color: '#d7e8d5',
+                        }
+                    }
+                ],
+                title: {
+                    text: 'Total de Mascotas por Especie',
+                    left: 'center',
+                    top: '10px',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                }
+            };
+
+            var myChart = echarts.init(document.getElementById('chart-animal-type-specie'));
+
+            myChart.setOption(option_all);
+        </script>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-lg-8 col-md-12 col-sm-24">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Edades de las mascotas</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-pet-age">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const edades_data = JSON.parse('{{ edades_data_json|escapejs }}');
+            const total_mascotas = JSON.parse('{{ total_mascotas_all|escapejs }}');
+        
+            const edades = [];
+            for (let i = 0; i < edades_data.length; i++) {
+                edades.push([edades_data[i], i + 1]);
+            }
+        
+            const edades_option = {
+                xAxis: {
+                    type: 'value',
+                    name: 'Edad en Meses',
+                    min: 0,
+                    max: 180,
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Indice',
+                    min: 0,
+                    max: total_mascotas + 1,
+                },
+                series: [
+                    {
+                        symbolSize: 10,
+                        data: edades,
+                        type: 'scatter',
+                        itemStyle: {
+                            color: '#8e3f65'
+                        }
+                    }
+                ],
+                title: {
+                    text: 'Distribución de Edades de Mascotas',
+                    left: 'center',
+                    top: '10px',
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        return 'Edad: ' + params.value[0] + '<br>Indice: ' + params.value[1];
+                    }
+                }
+            };
+        
+            var myChart = echarts.init(document.getElementById('chart-pet-age'));
+            myChart.setOption(edades_option);
+        </script>        
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Mascotas segun su sexo</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-pet-sex">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const datosGeneroJson = JSON.parse('{{ datos_genero_json|escapejs }}');
+        
+            const option_pie = {
+                title: {
+                    text: 'Género de las Mascotas',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'horizontal',
+                    left: 'center',
+                    top: '80%'
+                },
+                series: [
+                    {
+                        name: 'Género',
+                        type: 'pie',
+                        radius: '50%',
+                        data: datosGeneroJson,
+                        itemStyle: {
+                            color: function(params) {
+                                const colors = ['#ff9e9d', '#7fc7af'];
+                                return colors[params.dataIndex];
+                            }
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+        
+            const pie = echarts.init(document.getElementById('chart-pet-sex'));
+            pie.setOption(option_pie);
+        </script>        
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-lg-12 col-md-18 col-sm-36">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Frecuencia de mascotas segun fecha de nacimiento.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-pet-birthdate">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const fechas_all = JSON.parse('{{ fechas_all|escapejs }}');
+            const frecuencias_all = JSON.parse('{{ frecuencias_all|escapejs }}');
+            const min_year_all = JSON.parse('{{ min_year_all|escapejs }}');
+            const max_year_all = JSON.parse('{{ max_year_all|escapejs }}');
+        
+            const birthdate_option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: [],
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLabel: {
+                            rotate: 45
+                        },
+                        itemStyle: {
+                            color: '#a4d2d6',
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: 'Frecuencia',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: [],
+                        itemStyle: {
+                            color: '#a4d2d6'
+                        }
+                    }
+                ]
+            };
+        
+            const birthdate_map = {};
+            for (let i = 0; i < fechas_all.length; i++) {
+                const year = new Date(fechas_all[i]).getFullYear();
+                birthdate_map[year] = frecuencias_all[i];
+            }
+        
+            for (let year = min_year_all; year <= max_year_all; year++) {
+                birthdate_option.xAxis[0].data.push(year.toString());
+                birthdate_option.series[0].data.push(birthdate_map[year] || 0);
+            }
+        
+            const chart = echarts.init(document.getElementById('chart-pet-birthdate'));
+            chart.setOption(birthdate_option);
+        </script>        
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-12 col-md-18 col-sm-36">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Registro de mascotas por mes.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-pet-register">
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <script type="text/javascript">
+            var data = JSON.parse('{{ data_json|escapejs }}');
+            
+            var fechas = data.fechas;
+            var cantidades = data.cantidades;
+            
+            var chart_pet_register = echarts.init(document.getElementById('chart-pet-register'));
+        
+            var option_pet_register = {
+                title: {
+                    text: 'Inscripciones por Mes'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['Cantidad de Inscripciones', 'Tendencia']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: fechas
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: 'Cantidad de Inscripciones',
+                        type: 'bar',
+                        data: cantidades,
+                        itemStyle: {
+                            color: '#aeced2'
+                        }
+                    },
+                    {
+                        name: 'Tendencia',
+                        type: 'line',
+                        data: cantidades,
+                        itemStyle: {
+                            color: '#ff8830'
+                        },
+                        lineStyle: {
+                            width: 2
+                        },
+                        symbol: 'circle',
+                        symbolSize: 8,
+                        smooth: true
+                    }
+                ]
+            };
+        
+            chart_pet_register.setOption(option_pet_register);
+        </script>
+    </div>
+</div>
+{% endblock %}

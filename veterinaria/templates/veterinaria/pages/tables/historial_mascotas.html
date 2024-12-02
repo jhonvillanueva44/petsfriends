@@ -1,0 +1,97 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Historiales Mascotas</h1>
+            <form class="d-flex" action="{% url 'table-historial-mascotas' %}" method="get" style="max-width: 400px;">
+              <input class="form-control me-2" type="search" placeholder="Buscar historial mascota" aria-label="Buscar historial mascota" name="nombre_historial_mascota" value="{{ request.GET.nombre_historial_mascota }}">
+              <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </form>            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Historiales Mascotas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Historial ID</th>
+                <th>Mascota</th>
+                <th>Cita ID</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for historial in page_obj.object_list %}
+                <tr>
+                  <td>{{ historial.historial_id }}</td>
+                  <td>{{ historial.mascota_id.nombre }}</td>
+                  <td>{{ historial.cita_id.servicio_id.nombre }}</td>
+                  <td>{{ historial.fecha|date:"d-m-Y H:i" }}</td>
+                  <td class="actions">
+                    <a href="{% url 'ver_historial_mascota' historial.historial_id %}" class="btn-v btn">𖠂</a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">No hay historiales disponibles.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination justify-content-center mt-3">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                  <span aria-hidden="true">&laquo; Primero</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">Anterior</span>
+                </a>
+              </li>
+            {% endif %}
+            
+            <li class="page-item disabled">
+              <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">Siguiente</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                  <span aria-hidden="true">Último &raquo;</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>  
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

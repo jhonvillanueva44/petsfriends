@@ -1,0 +1,63 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Ventas</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ventas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles de la Venta</h3>
+        <a href="{% url 'table-ventas' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ venta.id }}</dd>
+
+          <dt class="col-sm-3">Metodos de Pago:</dt>
+          <dd class="col-sm-9">{{ venta.metodo_pago }}</dd>
+
+          <dt class="col-sm-3">Numero de Tarjeta:</dt>
+          <dd class="col-sm-9">{{ venta.numero_tarjeta }}</dd>
+
+          <dt class="col-sm-3">Correo:</dt>
+          <dd class="col-sm-9">{{ venta.correo }}</dd>
+
+          <dt class="col-sm-3">Fecha de Expiracion:</dt>
+          <dd class="col-sm-9">{{ venta.fecha_expiracion }}</dd>
+
+          <dt class="col-sm-3">Cvv:</dt>
+          <dd class="col-sm-9">{{ venta.cvv }}</dd>
+
+          <dt class="col-sm-3">Usuario:</dt>
+          <dd class="col-sm-9">{{ venta.usuario.username }}</dd>
+
+          <dt class="col-sm-3">Subtotal:</dt>
+          <dd class="col-sm-9">{{ venta.subtotal }}</dd>
+
+          <dt class="col-sm-3">Total:</dt>
+          <dd class="col-sm-9">{{ venta.total }}</dd>
+
+          <dt class="col-sm-3">Fecha de Venta:</dt>
+          <dd class="col-sm-9">{{ venta.fecha_venta }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

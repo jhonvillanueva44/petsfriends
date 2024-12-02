@@ -1,0 +1,78 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Mascotas</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mascotas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles de la Mascota</h3>
+        <a href="{% url 'table-mascotas' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ mascota.mascota_id }}</dd>
+
+          <dt class="col-sm-3">Nombre:</dt>
+          <dd class="col-sm-9">{{ mascota.nombre }}</dd>
+
+          <dt class="col-sm-3">Especie:</dt>
+          <dd class="col-sm-9">{{ mascota.especie }}</dd>
+
+          <dt class="col-sm-3">Raza:</dt>
+          <dd class="col-sm-9">{{ mascota.raza }}</dd>
+
+          <dt class="col-sm-3">Genero:</dt>
+          <dd class="col-sm-9">{{ mascota.genero }}</dd>
+
+          <dt class="col-sm-3">Edad:</dt>
+          <dd class="col-sm-9">{{ mascota.edad }}</dd>
+
+          <dt class="col-sm-3">Peso:</dt>
+          <dd class="col-sm-9">{{ mascota.peso }}</dd>
+
+          <dt class="col-sm-3">Color:</dt>
+          <dd class="col-sm-9">{{ mascota.color }}</dd>
+
+          <dt class="col-sm-3">Observaciones:</dt>
+          <dd class="col-sm-9">{{ mascota.observaciones|default:"No disponible" }}</dd>
+
+          <dt class="col-sm-3">Foto:</dt>
+          <dd class="col-sm-9">
+            {% if mascota.fotom %}
+              <img src="{{ mascota.fotom.url }}" alt="{{ mascota.nombre }}" class="img-fluid">
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+
+          <dt class="col-sm-3">Usuario:</dt>
+          <dd class="col-sm-9">{{ mascota.usuario.username }}</dd>
+
+          <dt class="col-sm-3">Código de Identificación:</dt>
+          <dd class="col-sm-9">{{ mascota.codigo_identificacion }}</dd>
+
+          <dt class="col-sm-3">Fecha de Inscripción:</dt>
+          <dd class="col-sm-9">{{ mascota.fecha_inscripcion }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

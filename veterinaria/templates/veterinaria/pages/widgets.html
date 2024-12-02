@@ -1,0 +1,280 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-white"
+    style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Widgets</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Widgets</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 20px;">
+    <section class="content">
+        <div class="container-fluid">
+            <h5 class="mb-2">Seccion de Usuarios</h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-user"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de usuarios</span>
+                            <span class="info-box-number">{{ total_usuarios }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-user-plus"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Usuarios nuevos</span>
+                            <span class="info-box-number">{{ total_usuarios_mes }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warningw"><i class="fa-solid fa-user-check"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Perfiles completos</span>
+                            <span class="info-box-number">{{ total_usuarios_completos }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-dangero"><i class="fa-solid fa-user-tag"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Minimo una mascota</span>
+                            <span class="info-box-number">{{ total_usuarios_con_mascota }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <h5 class="mb-2">Seccion de Mascotas</h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-paw"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de mascotas</span>
+                            <span class="info-box-number">{{ total_mascotas }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-paw"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Mascotas nuevas</span>
+                            <span class="info-box-number">{{ total_mascotas_mes }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <h5 class="mb-2">Seccion de Servicios y Veterinarios</h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-syringe"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de servicios</span>
+                            <span class="info-box-number">{{ total_servicios }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-user-tie"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total veterinarios</span>
+                            <span class="info-box-number">{{ total_veterinarios }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warningw"><i class="fa-solid fa-syringe"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Categorias servicios</span>
+                            <span class="info-box-number">{{ total_categorias_servicios }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-dangero"><i class="fa-solid fa-user-tie"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Servicios veterinarios</span>
+                            <span class="info-box-number">{{ total_servicios_veterinarios }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <h5 class="mb-2">Seccion de Productos</h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-bone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Categorias productos</span>
+                            <span class="info-box-number">{{ total_categorias_productos }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-bone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total productos</span>
+                            <span class="info-box-number">{{ total_productos }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warningw"><i class="fa-solid fa-bone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Productos vendidos</span>
+                            <span class="info-box-number">{{ total_productos_vendidos }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-dangero"><i class="fa-solid fa-bone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Productos activos</span>
+                            <span class="info-box-number">{{ productos_activos }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-bone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Productos inactivos</span>
+                            <span class="info-box-number">{{ productos_inactivos }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <h5 class="mb-2">Seccion de Ventas</h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-bag-shopping"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de ventas</span>
+                            <span class="info-box-number">{{ total_ventas }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-bag-shopping"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ultimas ventas</span>
+                            <span class="info-box-number">{{ total_ventas_mes }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warningw"><i class="fa-solid fa-credit-card"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Metodos de pago</span>
+                            <span class="info-box-number">{{ total_metodos_pago }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-dangero"><i class="fa-solid fa-cart-shopping"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de carritos</span>
+                            <span class="info-box-number">{{ total_carritos }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <h5 class="mb-2">Seccion de Citas</h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-calendar"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de citas</span>
+                            <span class="info-box-number">{{ total_citas }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-calendar-minus"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Citas pendientes</span>
+                            <span class="info-box-number">{{ citas_pendientes }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warningw"><i class="fa-solid fa-calendar-check"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Citas completadas</span>
+                            <span class="info-box-number">{{ citas_completadas }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

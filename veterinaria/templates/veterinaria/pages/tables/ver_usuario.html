@@ -1,0 +1,72 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Usuarios</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles del Usuario</h3>
+        <a href="{% url 'table-usuarios' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ usuario.usuario }}</dd>
+
+          <dt class="col-sm-3">Nombres:</dt>
+          <dd class="col-sm-9">{{ usuario.nombres }}</dd>
+
+          <dt class="col-sm-3">Apellidos:</dt>
+          <dd class="col-sm-9">{{ usuario.apellidos }}</dd>
+
+          <dt class="col-sm-3">Correo:</dt>
+          <dd class="col-sm-9">{{ usuario.correo }}</dd>
+
+          <dt class="col-sm-3">Username:</dt>
+          <dd class="col-sm-9">{{ usuario.username }}</dd>
+
+          <dt class="col-sm-3">Contraseña:</dt>
+          <dd class="col-sm-9">{{ usuario.contraseña }}</dd>
+
+          <dt class="col-sm-3">Fecha de Registro:</dt>
+          <dd class="col-sm-9">{{ usuario.fecha_registro }}</dd>
+
+          <dt class="col-sm-3">Fecha de Nacimiento:</dt>
+          <dd class="col-sm-9">{{ usuario.fecha_nacimiento }}</dd>
+
+          <dt class="col-sm-3">Foto:</dt>
+          <dd class="col-sm-9">
+            {% if usuario.foto %}
+              <img src="{{ usuario.foto.url }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 50%;">
+            {% else %}
+              <span>No disponible</span>
+            {% endif %}
+          </dd>
+
+          <dt class="col-sm-3">Teléfono:</dt>
+          <dd class="col-sm-9">{{ usuario.telefono }}</dd>
+
+          <dt class="col-sm-3">Dirección:</dt>
+          <dd class="col-sm-9">{{ usuario.direccion }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

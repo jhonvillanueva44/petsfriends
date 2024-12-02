@@ -1,0 +1,54 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Citas</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Citas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles de la Cita</h3>
+        <a href="{% url 'table-citas' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ cita.cita_id }}</dd>
+
+          <dt class="col-sm-3">Usuario:</dt>
+          <dd class="col-sm-9">{{ cita.usuario_id }}</dd>
+
+          <dt class="col-sm-3">Mascota:</dt>
+          <dd class="col-sm-9">{{ cita.mascota_id.nombre }}</dd>
+
+          <dt class="col-sm-3">Servicio:</dt>
+          <dd class="col-sm-9">{{ cita.servicio_id }}</dd>
+
+          <dt class="col-sm-3">Fecha:</dt>
+          <dd class="col-sm-9">{{ cita.fecha_cita }}</dd>
+
+          <dt class="col-sm-3">Hora:</dt>
+          <dd class="col-sm-9">{{ cita.horario_id.hora|time:"H:i" }}</dd>
+
+          <dt class="col-sm-3">Estado:</dt>
+          <dd class="col-sm-9">{{ cita.estado|yesno:"Activo,Inactivo" }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

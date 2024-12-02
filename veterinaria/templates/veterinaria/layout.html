@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets Friends Sidebar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6527db31d1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/widgets.css' %}"> 
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="body">
+
+    <aside class="sidebar">
+        <div class="sidebarbrandlink">
+            <div class="brand-link">
+                <img src="https://res.cloudinary.com/dq2suwtlm/image/upload/v1732220277/slvu8oirip185bswiphg.jpg" alt="Logo" class="brand-logo">
+                <span class="brand-name">Pets Friends</span>
+            </div>
+        </div>
+
+        <div class="sidebarbrandlinkflex">
+            <div class="banha">
+                <img src="https://res.cloudinary.com/dq2suwtlm/image/upload/v1732166555/sopaznf16bhbtwuxob5y.jpg" alt="User Image" class="user-image">
+                <span class="user-name">Jhoncito Pro</span>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <nav>
+                <ul class="padding-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link-item" onclick="toggleSubMenu(this)">
+                            <i class="fas fa-tachometer-alt icon"></i>
+                            <span>Dashboard</span>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li class="locuar"><a href="{% url 'index' %}" class="item-menu">◯  Dashboard v1</a></li>
+                            <li class="locuar"><a href="{% url 'index2' %}" class="item-menu">◯  Dashboard v2</a></li>
+                            <li class="locuar"><a href="{% url 'index3' %}" class="item-menu">◯  Dashboard v3</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{% url 'widgets' %}" class="nav-link-item">
+                            <i class="fas fa-cogs icon"></i>
+                            <span>Widgets</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link-item" onclick="toggleSubMenu(this)">
+                            <i class="fas fa-chart-line icon"></i>
+                            <span>Charts</span>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li class="locuar"><a href="{% url 'chartjs' %}" class="item-menu">◯  Mascotas</a></li>
+                            <li class="locuar"><a href="{% url 'flot' %}" class="item-menu">◯  Usuarios y Citas</a></li>
+                            <li class="locuar"><a href="{% url 'inline' %}" class="item-menu">◯  Productos y Ventas</a></li>
+                            <li class="locuar"><a href="{% url 'uplot' %}" class="item-menu">◯  Servicios y Veterinarios</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link-item" onclick="toggleSubMenu(this)">
+                            <i class="fas fa-table icon"></i>
+                            <span>Tables</span>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li class="locuar"><a href="{% url 'table-usuarios' %}" class="item-menu">◯  Usuarios</a></li>
+                            <li class="locuar"><a href="{% url 'table-especialidad' %}" class="item-menu">◯  Servicios Veterinarios</a></li>
+                            <li class="locuar"><a href="{% url 'table-veterinarios' %}" class="item-menu">◯  Veterinarios</a></li>
+                            <li class="locuar"><a href="{% url 'table-categorias-servicios' %}" class="item-menu">◯  Categorias Servicios</a></li>
+                            <li class="locuar"><a href="{% url 'table-servicios' %}" class="item-menu">◯  Servicios</a></li>
+                            <li class="locuar"><a href="{% url 'table-detalles-veterinaria' %}" class="item-menu">◯  Detalles Veterinaria</a></li>
+                            <li class="locuar"><a href="{% url 'table-categorias-productos' %}" class="item-menu">◯  Categorias Productos</a></li>
+                            <li class="locuar"><a href="{% url 'table-productos' %}" class="item-menu">◯  Productos</a></li>
+                            <li class="locuar"><a href="{% url 'table-metodos-pago' %}" class="item-menu">◯  Metodos Pago</a></li>
+                            <li class="locuar"><a href="{% url 'table-carritos' %}" class="item-menu">◯  Carritos</a></li>
+                            <li class="locuar"><a href="{% url 'table-productos-carrito' %}" class="item-menu">◯  Productos Carritos</a></li>
+                            <li class="locuar"><a href="{% url 'table-ventas' %}" class="item-menu">◯  Ventas</a></li>
+                            <li class="locuar"><a href="{% url 'table-detalles-venta' %}" class="item-menu">◯  Detalles Ventas</a></li>
+                            <li class="locuar"><a href="{% url 'table-mascotas' %}" class="item-menu">◯  Mascotas</a></li>
+                            <li class="locuar"><a href="{% url 'table-horarios' %}" class="item-menu">◯  Horarios</a></li>
+                            <li class="locuar"><a href="{% url 'table-citas' %}" class="item-menu">◯  Citas</a></li>
+                            <li class="locuar"><a href="{% url 'table-historial-mascotas' %}" class="item-menu">◯  Historiales Mascotas</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/admin/" class="nav-link-item">
+                            <i class="fas fa-user icon"></i>
+                            <span>Admin</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <section style="width: 100%; max-height: 100vh; overflow-y: auto;">
+        {% block content %}
+        {% endblock %}
+    </section>    
+
+    <script src="{% static 'js/scripts.js' %}"></script> 
+</body>
+
+</html>

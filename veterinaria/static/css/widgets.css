@@ -1,0 +1,52 @@
+.info-box {
+    display: flex;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.info-box-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.info-box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-box-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.info-box-number {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.bg-infod {
+    background-color: #78ABA8;
+}
+
+.bg-successe {
+    background-color: #C8CFA0;
+}
+
+.bg-warningw {
+    background-color: #FCDC94;
+}
+
+.bg-dangero {
+    background-color: #EF9C66;
+}

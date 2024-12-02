@@ -1,0 +1,45 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Historiales Mascotas</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Historiales Mascotas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles del Historial</h3>
+        <a href="{% url 'table-historial-mascotas' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">Historial ID:</dt>
+          <dd class="col-sm-9">{{ historial.historial_id }}</dd>
+
+          <dt class="col-sm-3">Mascota:</dt>
+          <dd class="col-sm-9">{{ historial.mascota_id.nombre }}</dd>
+
+          <dt class="col-sm-3">Cita ID:</dt>
+          <dd class="col-sm-9">{{ historial.cita_id.servicio_id.nombre }}</dd>
+
+          <dt class="col-sm-3">Fecha:</dt>
+          <dd class="col-sm-9">{{ historial.fecha|date:"d-m-Y H:i" }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

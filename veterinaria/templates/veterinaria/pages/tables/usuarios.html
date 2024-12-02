@@ -1,0 +1,117 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Usuarios</h1>
+            <form class="d-flex" action="{% url 'table-usuarios' %}" method="get" style="max-width: 400px;">
+              <input class="form-control me-2" type="search" placeholder="Buscar usuario" aria-label="Buscar usuario" name="nombre_usuario" value="{{ request.GET.nombre_usuario }}">
+              <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </form>            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Username</th>
+                <th>Contraseña</th>
+                <th>Fecha-Registro</th>
+                <th>Fecha-Cumpleaños</th>
+                <th>Foto</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in page_obj.object_list %}
+                <tr>
+                  <td class="id-cell">{{ usuario.usuario }}</td> 
+                  <td>{{ usuario.nombres }}</td>
+                  <td>{{ usuario.apellidos }}</td>
+                  <td>{{ usuario.correo }}</td>
+                  <td>{{ usuario.username }}</td>
+                  <td>{{ usuario.contraseña }}</td>
+                  <td>{{ usuario.fecha_registro }}</td>
+                  <td>{{ usuario.fecha_nacimiento }}</td>
+                  <td>
+                    {% if usuario.foto %}
+                      <img src="{{ usuario.foto.url }}" alt="Foto"  style="width: 50px; height: 50px; object-fit: cover;">
+                    {% else %}
+                      <span>No disponible</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ usuario.telefono }}</td>
+                  <td>{{ usuario.direccion }}</td>
+                  <td class="actions">
+                    <a href="{% url 'ver_usuario' usuario.usuario %}" class="btn-v btn">𖠂</a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">No hay usuarios disponibles.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination justify-content-center mt-3">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                  <span aria-hidden="true">&laquo; Primero</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">Anterior</span>
+                </a>
+              </li>
+            {% endif %}
+            
+            <li class="page-item disabled">
+              <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">Siguiente</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                  <span aria-hidden="true">Último &raquo;</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>  
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

@@ -1,0 +1,285 @@
+/* Estilos del scrollbar */
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 0px none #ffffff;
+    border-radius: 18px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+
+::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px none #ffffff;
+    border-radius: 9px;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+
+::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+* {
+    font-family: 'Roboto Condensed', sans-serif;
+    margin: 0;
+}
+
+.body {
+    display: flex;
+}
+
+.sidebar {
+    width: 300px;
+    background-color: #343A40;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.brand-link, .banha {
+    display: flex;
+}
+
+.brand-logo {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin-right: 1.25rem;
+}
+
+.brand-name, .user-name {
+    font-weight: 600;
+    color: white;
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    margin-top: 0.75rem;
+}
+
+.user-name {
+    font-size: 1.125rem;
+    margin-top: 0.5rem;
+}
+
+.user-image {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.content-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+.padding-list {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    list-style: none;
+}
+
+.nav-link-item {
+    display: flex;
+    align-items: center;
+    border-radius: 0.375rem;
+    padding: 10px 30px;
+    text-decoration: none;
+    color: #e5e7eb;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link-item:hover {
+    background-color: #78ABA8;
+}
+
+.nav-item:hover {
+    background-color: #343A40;
+}
+
+.nav-item.active {
+    background-color: #78ABA8;
+}
+
+.icon, .chevron {
+    color: white;
+}
+
+.icon {
+    margin-right: 0.75rem;
+}
+
+.chevron {
+    margin-left: auto;
+}
+
+.nav-link-item.active {
+    background-color: #78ABA8;
+}
+
+.submenu {
+    display: none;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.submenu.active {
+    display: block;
+}
+
+.locuar {
+    padding: 10px 30px;
+    margin-top: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.locuar a {
+    font-size: 14px;
+    text-decoration: none;
+    color: white;
+}
+
+.locuar:hover {
+    background-color: #A6A6A6;
+    border-radius: 5px;
+}
+
+.locuar.hover {
+    background-color: #78ABA8;
+    border-radius: 5px;
+}
+
+.sidebarbrandlink {
+    background-color: #252A2E;
+    padding: 10px 30px;
+    border-bottom: 0.5px solid #8D9DAD;
+}
+
+.sidebarbrandlinkflex {
+    background-color: #2C3136;
+    padding: 5px 20px;
+    border-bottom: 0.5px solid #8D9DAD;
+    height: 50px;
+}
+
+.brand-link {
+    height: 50px;
+}
+
+.item-menu {
+    color: white;
+}
+
+.custom-btn {
+    background-color: #78ABA8;
+    border: 1px solid #395250;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.custom-btn:hover {
+    background-color: #395250;
+    border-color: #78ABA8;
+    color: white;
+}
+
+.custom-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(121, 171, 168, 0.5);
+}
+
+.custom-btn:active {
+    background-color: #2c3e50;
+    border-color: #78ABA8;
+    color: white;
+}
+
+.btn-v {
+    color: #C8CFA0;
+    font-size: 20px;
+}
+
+.btn-v:hover {
+    color: #C8CFA0;
+    background-color: lightslategray;
+    border: 0.3px solid black;
+    font-size: 20px;
+}
+
+.btn-w {
+    color: #FCDC94;
+    font-size: 20px;
+}
+
+.btn-w:hover {
+    color: #FCDC94;
+    background-color: lightslategray;
+    border: 0.3px solid black;
+    font-size: 20px;
+}
+
+.btn-d {
+    color: #EF9C66;
+    font-size: 20px;
+}
+
+.btn-d:hover {
+    color: #EF9C66;
+    background-color: lightslategray;
+    border: 0.3px solid black;
+    font-size: 20px;
+}
+
+.btn-custom {
+    background-color: #666666;
+    border: 1px solid #666666;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-custom:hover {
+    background-color: #444444;
+    border-color: #444444;
+    color: white;
+}
+

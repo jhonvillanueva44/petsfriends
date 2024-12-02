@@ -1,0 +1,84 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Mascotas</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mascotas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Editar Mascota</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_nombre">Nombre</label>
+            {{ form.nombre }}
+          </div>
+          <div class="form-group">
+            <label for="id_especie">Especie</label>
+            {{ form.especie }}
+          </div>
+          <div class="form-group">
+            <label for="id_raza">Raza</label>
+            {{ form.raza }}
+          </div>
+          <div class="form-group">
+            <label for="id_raza">Genero</label>
+            {{ form.genero }}
+          </div>
+          <div class="form-group">
+            <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
+            {{ form.fecha_nacimiento }}
+          </div>
+          <div class="form-group">
+            <label for="id_peso">Peso</label>
+            {{ form.peso }}
+          </div>
+          <div class="form-group">
+            <label for="id_altura">Altura</label>
+            {{ form.altura }}
+          </div>
+          <div class="form-group">
+            <label for="id_edad">Edad</label>
+            {{ form.edad }}
+          </div>
+          <div class="form-group">
+            <label for="id_color">Color</label>
+            {{ form.color }}
+          </div>
+          <div class="form-group">
+            <label for="id_fotom">Foto</label>
+            {{ form.fotom }}
+          </div>
+          <div class="form-group">
+            <label for="id_observaciones">Observaciones</label>
+            {{ form.observaciones }}
+          </div>
+          <div class="form-group">
+            <label for="id_usuario">Usuario</label>
+            {{ form.usuario }}
+          </div>
+          <button type="submit" class="custom-btn">Guardar Cambios</button>
+          <a href="{% url 'table-mascotas' %}" class="btn-custom">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

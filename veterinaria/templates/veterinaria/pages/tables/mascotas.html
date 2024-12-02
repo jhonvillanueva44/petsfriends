@@ -1,0 +1,125 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Mascotas</h1>
+            <form class="d-flex" action="{% url 'table-mascotas' %}" method="get" style="max-width: 400px;">
+              <input class="form-control me-2" type="search" placeholder="Buscar mascota" aria-label="Buscar mascota" name="nombre_mascota" value="{{ request.GET.nombre_mascota }}">
+              <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            </form>            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mascotas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <a href="{% url 'crear_mascota' %}" class="custom-btn">Crear Mascota</a>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Especie</th>
+                <th>Raza</th>
+                <th>Genero</th>
+                <th>Edad</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Color</th>
+                <th>Foto</th>
+                <th>Observaciones</th>
+                <th>Usuario</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Código Identificación</th>
+                <th>Fecha Inscripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for mascota in page_obj.object_list %}
+                <tr>
+                  <td>{{ mascota.mascota_id }}</td>
+                  <td>{{ mascota.nombre }}</td>
+                  <td>{{ mascota.especie }}</td>
+                  <td>{{ mascota.raza }}</td>
+                  <td>{{ mascota.genero }}</td>
+                  <td>{{ mascota.edad }}</td>
+                  <td>{{ mascota.altura }}</td>
+                  <td>{{ mascota.peso }}</td>
+                  <td>{{ mascota.color }}</td>
+                  <td>
+                    {% if mascota.fotom %}
+                      <img src="{{ mascota.fotom.url }}" alt="Imagen de {{ mascota.nombre }}" width="50">
+                    {% else %}
+                      <span>No disponible</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ mascota.observaciones }}</td>
+                  <td>{{ mascota.usuario.username }}</td>
+                  <td>{{ mascota.fecha_nacimiento }}</td>
+                  <td>{{ mascota.codigo_identificacion }}</td>
+                  <td>{{ mascota.fecha_inscripcion }}</td>
+                  <td class="actions">
+                    <a href="{% url 'ver_mascota' mascota.mascota_id %}" class="btn-v btn">𖠂</a>
+                    <a href="{% url 'editar_mascota' mascota.mascota_id %}" class="btn-w btn">✎</a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">No hay mascotas disponibles.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination justify-content-center mt-3">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                  <span aria-hidden="true">&laquo; Primero</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">Anterior</span>
+                </a>
+              </li>
+            {% endif %}
+            
+            <li class="page-item disabled">
+              <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">Siguiente</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                  <span aria-hidden="true">Último &raquo;</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>  
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

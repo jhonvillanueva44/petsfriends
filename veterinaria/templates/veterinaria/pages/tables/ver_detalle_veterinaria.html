@@ -1,0 +1,78 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Detalles Veterinaria</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalles Veterinaria</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles de Veterinaria</h3>
+        <a href="{% url 'table-detalles-veterinaria' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ detalle_veterinaria.detalle_veterinaria_id }}</dd>
+
+          <dt class="col-sm-3">Dirección:</dt>
+          <dd class="col-sm-9">{{ detalle_veterinaria.direccion }}</dd>
+
+          <dt class="col-sm-3">Teléfono:</dt>
+          <dd class="col-sm-9">{{ detalle_veterinaria.telefono }}</dd>
+
+          <dt class="col-sm-3">Correo de Contacto:</dt>
+          <dd class="col-sm-9">{{ detalle_veterinaria.correo_contacto }}</dd>
+
+          <dt class="col-sm-3">Horario de Apertura:</dt>
+          <dd class="col-sm-9">{{ detalle_veterinaria.horario_apertura }}</dd>
+
+          <dt class="col-sm-3">Horario de Cierre:</dt>
+          <dd class="col-sm-9">{{ detalle_veterinaria.horario_cierre }}</dd>
+
+          <dt class="col-sm-3">Instagram:</dt>
+          <dd class="col-sm-9">
+            {% if detalle_veterinaria.instagram %}
+              <a href="{{ detalle_veterinaria.instagram }}" target="_blank">Ver Instagram</a>
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+
+          <dt class="col-sm-3">Facebook:</dt>
+          <dd class="col-sm-9">
+            {% if detalle_veterinaria.facebook %}
+              <a href="{{ detalle_veterinaria.facebook }}" target="_blank">Ver Facebook</a>
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+
+          <dt class="col-sm-3">Twitter:</dt>
+          <dd class="col-sm-9">
+            {% if detalle_veterinaria.twitter %}
+              <a href="{{ detalle_veterinaria.twitter }}" target="_blank">Ver Twitter</a>
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

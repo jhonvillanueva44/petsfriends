@@ -1,0 +1,105 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Detalles Veterinaria</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalles Veterinaria</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <a href="{% url 'crear_detalle_veterinaria' %}" class="custom-btn">Crear Detalle de Veterinaria</a>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Apertura</th>
+                <th>Cierre</th>
+                <th>Instagram</th>
+                <th>Facebook</th>
+                <th>Twitter</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for detalle in page_obj.object_list %}
+                <tr>
+                  <td class="id-cell">{{ detalle.detalle_veterinaria_id }}</td>
+                  <td>{{ detalle.direccion }}</td>
+                  <td>{{ detalle.telefono }}</td>
+                  <td>{{ detalle.correo_contacto }}</td>
+                  <td>{{ detalle.horario_apertura }}</td>
+                  <td>{{ detalle.horario_cierre }}</td>
+                  <td>{{ detalle.instagram }}</td>
+                  <td>{{ detalle.facebook }}</td>
+                  <td>{{ detalle.twitter }}</td>
+                  <td class="actions">
+                    <a href="{% url 'ver_detalle_veterinaria' detalle.detalle_veterinaria_id %}" class="btn-v btn">𖠂</a>
+                    <a href="{% url 'editar_detalle_veterinaria' detalle.detalle_veterinaria_id %}" class="btn-w btn">✎</a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">No hay detalles de la veterinaria disponibles.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination justify-content-center mt-3">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                  <span aria-hidden="true">&laquo; Primero</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">Anterior</span>
+                </a>
+              </li>
+            {% endif %}
+            
+            <li class="page-item disabled">
+              <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">Siguiente</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                  <span aria-hidden="true">Último &raquo;</span>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>  
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

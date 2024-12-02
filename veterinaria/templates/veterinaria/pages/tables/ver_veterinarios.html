@@ -1,0 +1,64 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Veterinarios</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Veterinarios</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles del Veterinario</h3>
+        <a href="{% url 'table-veterinarios' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ veterinario.veterinario_id }}</dd>
+
+          <dt class="col-sm-3">Nombres:</dt>
+          <dd class="col-sm-9">{{ veterinario.nombres }}</dd>
+
+          <dt class="col-sm-3">Apellidos:</dt>
+          <dd class="col-sm-9">{{ veterinario.apellidos }}</dd>
+
+          <dt class="col-sm-3">Teléfono:</dt>
+          <dd class="col-sm-9">{{ veterinario.telefono }}</dd>
+
+          <dt class="col-sm-3">Correo:</dt>
+          <dd class="col-sm-9">{{ veterinario.correo }}</dd>
+
+          <dt class="col-sm-3">Especialidad:</dt>
+          <dd class="col-sm-9">{{ veterinario.especialidad_id }}</dd>
+
+          <dt class="col-sm-3">Fecha de Nacimiento:</dt>
+          <dd class="col-sm-9">{{ veterinario.fecha_nacimiento|date:"d/m/Y" }}</dd>
+
+          <dt class="col-sm-3">Foto:</dt>
+          <dd class="col-sm-9">
+            {% if veterinario.foto %}
+              <img src="{{ veterinario.foto.url }}" alt="Foto de {{ veterinario.nombres }}" class="img-fluid" width="150">
+            {% else %}
+              <p>No hay foto disponible.</p>
+            {% endif %}
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->
+

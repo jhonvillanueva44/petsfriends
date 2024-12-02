@@ -1,0 +1,385 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+
+<style>
+    #chart-user-register {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-user-age {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-cite {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-horarios {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-cite-status {
+        width: 100%;
+        height: 400px;
+    }
+
+    #chart-cite-revenue {
+        width: 100%;
+        height: 400px;
+    }
+</style>
+
+<nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Flot</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Flot</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="row mt-4">
+        <div class="col-lg-12 col-md-18 col-sm-36">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Registro de usuarios por mes.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-user-register">
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <script type="text/javascript">
+            var data = JSON.parse('{{ data_json|escapejs }}');
+            
+            var fechas = data.fechas;
+            var cantidades = data.cantidades;
+            
+            var chart = echarts.init(document.getElementById('chart-user-register'));
+        
+            var option = {
+                title: {
+                    text: 'Inscripciones por Mes'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['Cantidad de Inscripciones', 'Tendencia']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: fechas
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: 'Cantidad de Inscripciones',
+                        type: 'bar',
+                        data: cantidades,
+                        itemStyle: {
+                            color: '#aeced2'
+                        }
+                    },
+                    {
+                        name: 'Tendencia',
+                        type: 'line',
+                        data: cantidades,
+                        itemStyle: {
+                            color: '#ff8830'
+                        },
+                        lineStyle: {
+                            width: 2
+                        },
+                        symbol: 'circle',
+                        symbolSize: 8,
+                        smooth: true
+                    }
+                ]
+            };
+        
+            chart.setOption(option);
+        </script>
+        
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-6 col-md-9 col-sm-18">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Edades de nuestros usuarios.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-user-age">
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <script type="text/javascript">
+            const intervalos = JSON.parse('{{ intervalos|escapejs }}');
+            const conteo = JSON.parse('{{ conteo|escapejs }}');
+        
+            const graficoOption = {
+                title: {
+                    text: 'Distribución de Edades de Usuarios'
+                },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: intervalos
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: conteo,
+                    type: 'bar',
+                    itemStyle: {
+                        color: '#88f5a2' 
+                    }
+                }]
+            };
+            
+            const chartAge = echarts.init(document.getElementById('chart-user-age'));
+            chartAge.setOption(graficoOption);
+        </script>     
+        
+        <div class="col-lg-6 col-md-9 col-sm-18">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Horarios preferidos en las citas.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-horarios">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const horarios = JSON.parse('{{ data_horarios_json|escapejs }}').horarios;
+            const cantidad_citas_horarios = JSON.parse('{{ data_horarios_json|escapejs }}').cantidad_citas_horarios;
+        
+            const optionHorarios = {
+                title: {
+                    text: 'Horarios Más Elegidos en las Citas',
+                    subtext: 'Distribución de citas por horario',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                },
+                series: [
+                    {
+                        name: 'Citas por Horario',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: horarios.map((horario, index) => ({
+                            value: cantidad_citas_horarios[index],
+                            name: horario
+                        })),
+                        itemStyle: {
+                            color: (params) => {
+                                const coloresH = ['#FF5733', '#FF8D1A', '#FFD700', '#4CAF50', '#00BCD4', '#3F51B5', '#9C27B0', '#E91E63'];
+                                return coloresH[params.dataIndex % coloresH.length];
+                            }
+                        }
+                    }
+                ]
+            };
+        
+            const chartHorarios = echarts.init(document.getElementById('chart-horarios'));
+            chartHorarios.setOption(optionHorarios);
+        </script>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-8 col-md-12 col-sm-24">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Citas por semana.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-cite">
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <script type="text/javascript">
+            const fechasSemana = JSON.parse('{{ fechas_semana|escapejs }}');
+            const cantidadCitas = JSON.parse('{{ cantidad_citas|escapejs }}');
+    
+            console.log(fechasSemana)
+            console.log(cantidadCitas)
+
+            const optionCita = {
+                title: {
+                    text: 'Citas Pendientes por Día (Última Semana)'
+                },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: fechasSemana
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: cantidadCitas,
+                    type: 'bar',
+                    itemStyle: {
+                        color: '#e87474' 
+                    }
+                }]
+            };
+    
+            const chartCitas = echarts.init(document.getElementById('chart-cite'));
+            chartCitas.setOption(optionCita);
+        </script>   
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Estado de las citas.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-cite-status">
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <script type="text/javascript">
+            const estados_citas = JSON.parse('{{ estados_citas|escapejs }}');
+            const cantidades_estados = JSON.parse('{{ cantidades_estados|escapejs }}');
+            
+            const colores_estado = [
+                '#ffd63b', 
+                '#097ab3'  
+            ];
+        
+            const optionEstadoCitas = {
+                title: {
+                    text: 'Estado de las Citas',
+                    subtext: 'Distribución de citas pendientes y completadas',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)'
+                },
+                series: [
+                    {
+                        name: 'Estado',
+                        type: 'pie',
+                        radius: '50%',
+                        data: estados_citas.map((estado, index) => ({
+                            value: cantidades_estados[index],
+                            name: estado,
+                            itemStyle: {
+                                color: colores_estado[index % colores_estado.length]
+                            }
+                        })),
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+        
+            const chartEstadoCitas = echarts.init(document.getElementById('chart-cite-status'));
+            chartEstadoCitas.setOption(optionEstadoCitas);
+        </script>
+        
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-12 col-md-18 col-sm-36">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Ingresos de citas por mes.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-cite-revenue">
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <script type="text/javascript">
+            const meses_completos_citas = JSON.parse('{{ data_ingresos_citas_json|escapejs }}').meses_completos_citas;
+            const ingresos_completos_citas = JSON.parse('{{ data_ingresos_citas_json|escapejs }}').ingresos_completos_citas;
+            
+            const optionIngresosMensualesCitas = {
+                title: {
+                    text: 'Ingresos por Mes',
+                    subtext: 'Ingresos de citas completadas',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'line',
+                        lineStyle: {
+                            color: '#999',
+                            width: 1,
+                            type: 'dashed'
+                        }
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: meses_completos_citas
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Ingresos (SOL)',
+                    min: 0
+                },
+                series: [
+                    {
+                        data: ingresos_completos_citas,
+                        type: 'line',
+                        smooth: false,  
+                        lineStyle: {
+                            width: 2
+                        },
+                        itemStyle: {
+                            color: '#126371'
+                        }
+                    }
+                ]
+            };
+            
+            const chartIngresosMensualesCitas = echarts.init(document.getElementById('chart-cite-revenue'));
+            chartIngresosMensualesCitas.setOption(optionIngresosMensualesCitas);
+        </script>        
+        
+    </div>
+</div>
+{% endblock %}

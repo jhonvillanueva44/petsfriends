@@ -1,0 +1,50 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Productos Carrito</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Productos Carrito</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles del Carrito</h3>
+        <a href="{% url 'table-productos-carrito' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          {% for producto_carrito in productos_carrito %}
+            <dt class="col-sm-3">Carrito:</dt>
+            <dd class="col-sm-9">{{ producto_carrito.carrito.usuario }}</dd>
+
+            <dt class="col-sm-3">Producto:</dt>
+            <dd class="col-sm-9">{{ producto_carrito.producto.nombre }}</dd>
+
+            <dt class="col-sm-3">Cantidad:</dt>
+            <dd class="col-sm-9">{{ producto_carrito.cantidad }}</dd>
+
+            <dt class="col-sm-3">Precio:</dt>
+            <dd class="col-sm-9">{{ producto_carrito.precio }}</dd>
+            <hr> <!-- Separa cada producto -->
+          {% empty %}
+            <dt class="col-sm-3">No hay productos en este carrito.</dt>
+          {% endfor %}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

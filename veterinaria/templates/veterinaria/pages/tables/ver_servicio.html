@@ -1,0 +1,57 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Servicios</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Servicios</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Detalles del Servicio</h3>
+        <a href="{% url 'table-servicios' %}" class="custom-btn">Volver a la lista</a>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">ID:</dt>
+          <dd class="col-sm-9">{{ servicio.servicio_id }}</dd>
+
+          <dt class="col-sm-3">Nombre:</dt>
+          <dd class="col-sm-9">{{ servicio.nombre }}</dd>
+
+          <dt class="col-sm-3">Descripción:</dt>
+          <dd class="col-sm-9">
+            {% if servicio.descripcion %}
+              {{ servicio.descripcion }}
+            {% else %}
+              No disponible
+            {% endif %}
+          </dd>
+
+          <dt class="col-sm-3">Precio:</dt>
+          <dd class="col-sm-9">{{ servicio.precio }}</dd>
+
+          <dt class="col-sm-3">Categoría:</dt>
+          <dd class="col-sm-9">{{ servicio.categoria.nombre }}</dd>
+
+          <dt class="col-sm-3">Veterinario:</dt>
+          <dd class="col-sm-9">{{ servicio.veterinario.nombres }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->

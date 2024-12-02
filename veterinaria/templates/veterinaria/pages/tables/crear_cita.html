@@ -1,0 +1,76 @@
+{% extends "veterinaria/layout.html" %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between w-100">
+            <h1 class="m-0" style="color:#343A40">Citas</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end mt-3">
+                    <li class="breadcrumb-item"><a href="#" style="text-decoration: none;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Citas</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</nav>
+
+  <div class="container-fluid" style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-header">
+        <h3>Crear Cita</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_usuario_id">Usuario</label>
+            {{ form.usuario_id }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_mascota_id">Mascota</label>
+            {{ form.mascota_id }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_servicio_id">Servicio</label>
+            {{ form.servicio_id }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_razon">Razón</label>
+            {{ form.razon }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_observaciones">Observaciones</label>
+            {{ form.observaciones }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_fecha_cita">Fecha de Cita</label>
+            {{ form.fecha_cita }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_horario_id">Horario</label>
+            {{ form.horario_id }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_estado">Estado</label>
+            {{ form.estado }}
+          </div>
+
+          <button type="submit" class="custom-btn">Guardar Cita</button>
+          <a href="{% url 'table-citas' %}" class="btn-custom">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+<!-- /.content -->
