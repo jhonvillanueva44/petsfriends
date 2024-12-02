@@ -222,6 +222,11 @@ class HorarioList(generics.ListAPIView):
     queryset = models.Horario.objects.all()  
     serializer_class = serializers.HorarioSerializer
     
+class HorarioDetail(generics.RetrieveAPIView):
+    queryset = models.Horario.objects.all()
+    serializer_class = serializers.HorarioSerializer
+    lookup_field = 'horario_id'    
+
 # Vistas para Cita
 class CitaListCreate(generics.ListCreateAPIView):
     queryset = models.Cita.objects.all()

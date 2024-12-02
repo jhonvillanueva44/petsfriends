@@ -64,6 +64,7 @@ urlpatterns = [
 
     # URL para Horario
     path('horarios/', views.HorarioList.as_view(), name='horario-list'),
+    path('horarios/<int:horario_id>/', views.HorarioDetail.as_view(), name='horario-detail'), 
     
     # URLs para Cita
     path('citas/', views.CitaListCreate.as_view(), name='cita-list-create'),
