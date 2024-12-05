@@ -434,6 +434,50 @@ def flot(request):
         'ingresos_completos_citas': ingresos_completos_citas
     }
     data_ingresos_citas_json = json.dumps(data_ingresos_citas)
+    
+    ##### EXCEL PARA INGRESOS DE LAS CITAS
+    wb_citas = Workbook()
+    ws_citas = wb_citas.active
+    ws_citas.title = "Ingresos de Citas"
+
+    amarillo_fondo = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  
+    borde_citas = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+
+    encabezado_mes = "Mes"
+    encabezado_ingreso_total = "Ingreso Total"
+    
+    ws_citas.append([encabezado_mes, encabezado_ingreso_total])
+
+    for col_num in range(1, 3):  
+        cell = ws_citas.cell(row=1, column=col_num)
+        cell.fill = amarillo_fondo  
+        cell.border = borde_citas  
+        cell.alignment = cell.alignment.copy(horizontal='center', vertical='center')
+
+    for row_num, (mes, ingreso) in enumerate(zip(meses_completos_citas, ingresos_completos_citas), start=2):
+        ws_citas.cell(row=row_num, column=1, value=mes).border = borde_citas 
+        ws_citas.cell(row=row_num, column=2, value=ingreso).border = borde_citas 
+
+    ws_citas.column_dimensions['A'].width = 15 
+    ws_citas.column_dimensions['B'].width = 15  
+
+    tmp_dir_citas = os.path.join(settings.BASE_DIR, 'tmp')
+    os.makedirs(tmp_dir_citas, exist_ok=True)
+
+    archivo_excel_citas = os.path.join(tmp_dir_citas, 'ingresos_citas.xlsx')
+
+    wb_citas.save(archivo_excel_citas)
+
+    resultado_subida_citas = cloudinary.uploader.upload(archivo_excel_citas, resource_type="raw")
+    
+    url_descarga_citas = resultado_subida_citas['secure_url']
+    
+    os.remove(archivo_excel_citas)
 
     
     return render(request, 'veterinaria/pages/charts/flot.html', {
@@ -449,6 +493,7 @@ def flot(request):
         'nombres_servicios': nombres_json,
         'cantidades_servicios': cantidades_servicios__json,
         'download_url': download_url,
+        'url_descarga_citas': url_descarga_citas
     })
     
 
