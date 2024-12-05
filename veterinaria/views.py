@@ -11,6 +11,11 @@ from django.core.paginator import Paginator
 from datetime import date
 from django.db.models import Sum
 from decimal import Decimal
+import os
+import cloudinary
+import cloudinary.uploader
+from openpyxl import Workbook
+from django.conf import settings
 
 # Vista para el index.html
 def dashboard(request):
@@ -246,6 +251,30 @@ def chartjs(request):
     data_json = json.dumps(data)
     
     
+    ##### EXCEL PARA REGISTRO DE MASCOTAS
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Inscripciones de Mascotas"
+
+    ws.append(["Fecha", "Cantidad"])
+
+    for fecha, cantidad in zip(all_months, all_cantidades):
+        ws.append([fecha, cantidad])
+
+    tmp_dir = os.path.join(settings.BASE_DIR, 'tmp')  
+    os.makedirs(tmp_dir, exist_ok=True)  
+
+    excel_file = os.path.join(tmp_dir, 'mascotas_inscripcion.xlsx')
+    
+    wb.save(excel_file)
+
+    upload_result = cloudinary.uploader.upload(excel_file, resource_type="raw")
+    
+    download_url = upload_result['secure_url']
+    
+    os.remove(excel_file)
+
+    
     return render(request, 'veterinaria/pages/charts/chartjs.html', {
         'species_json': species_json,
         'totals_json': totals_json,
@@ -259,6 +288,7 @@ def chartjs(request):
         'max_year_all': max_year_all,
         'datos_genero_json': datos_genero_json,
         'data_json': data_json,
+        'download_url': download_url
     })
     
     
