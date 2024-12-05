@@ -1,6 +1,14 @@
 {% extends "veterinaria/layout.html" %}
 
 {% block content %}
+
+<style>
+    #chart-month-vents {
+        width: 100%;
+        height: 400px;
+    }
+</style>
+
 <nav class="navbar navbar-expand navbar-light bg-white" style="height: 71px; border-bottom: 0.5px solid #8D9DAD; padding: 30px; ">
     <div class="container-fluid">
         <div class="d-flex justify-content-between w-100">
@@ -16,5 +24,115 @@
 </nav>
 
 <div class="container-fluid" style="margin-top: 20px;">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-infod"><i class="fa-solid fa-user"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total de usuarios</span>
+                            <span class="info-box-number">{{ total_usuarios }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-successe"><i class="fa-solid fa-bone"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Productos activos</span>
+                            <span class="info-box-number">{{ productos_activos }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warningw"><i class="fa-solid fa-bag-shopping"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total ventas</span>
+                            <span class="info-box-number">{{ total_ventas }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-dangero"><i class="fa-solid fa-calendar-minus"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Citas pendientes</span>
+                            <span class="info-box-number">{{ citas_pendientes }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row mt-4">
+        <div class="col-lg-12 col-md-18 col-sm-36">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Ganancias totales por mes.</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chart-month-vents">
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <script type="text/javascript">
+            const meses_completos_2024 = JSON.parse('{{ datos_ingresos_totales_json|escapejs }}').meses_completos_2024;
+            const ingresos_totales_por_mes = JSON.parse('{{ datos_ingresos_totales_json|escapejs }}').ingresos_totales_por_mes;
+            
+            const opcionesGraficoIngresosTotales = {
+                title: {
+                    text: 'Ganancias Totales por Mes',
+                    subtext: 'Suma de ingresos de citas y ganancias de productos por mes',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'line' 
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: meses_completos_2024, 
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLabel: {
+                        rotate: 45, 
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Ingresos Totales',
+                    min: 0
+                },
+                series: [
+                    {
+                        name: 'Ingresos Totales',
+                        type: 'line',  
+                        data: ingresos_totales_por_mes, 
+                        lineStyle: {
+                            color: '#ff7f0e',  
+                            width: 2 
+                        },
+                        symbol: 'circle', 
+                        symbolSize: 6 
+                    }
+                ]
+            };
+        
+            const graficoIngresosTotales = echarts.init(document.getElementById('chart-month-vents'));
+            graficoIngresosTotales.setOption(opcionesGraficoIngresosTotales);
+        </script>
+    </div>
 </div>
 {% endblock %}

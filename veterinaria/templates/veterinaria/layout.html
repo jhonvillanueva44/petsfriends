@@ -39,16 +39,10 @@
             <nav>
                 <ul class="padding-list">
                     <li class="nav-item">
-                        <a href="#" class="nav-link-item" onclick="toggleSubMenu(this)">
+                        <a href="{% url 'index' %}" class="nav-link-item">
                             <i class="fas fa-tachometer-alt icon"></i>
                             <span>Dashboard</span>
-                            <i class="fas fa-chevron-down chevron"></i>
                         </a>
-                        <ul class="submenu">
-                            <li class="locuar"><a href="{% url 'index' %}" class="item-menu">◯  Dashboard v1</a></li>
-                            <li class="locuar"><a href="{% url 'index2' %}" class="item-menu">◯  Dashboard v2</a></li>
-                            <li class="locuar"><a href="{% url 'index3' %}" class="item-menu">◯  Dashboard v3</a></li>
-                        </ul>
                     </li>
 
                     <li class="nav-item">
@@ -68,7 +62,6 @@
                             <li class="locuar"><a href="{% url 'chartjs' %}" class="item-menu">◯  Mascotas</a></li>
                             <li class="locuar"><a href="{% url 'flot' %}" class="item-menu">◯  Usuarios y Citas</a></li>
                             <li class="locuar"><a href="{% url 'inline' %}" class="item-menu">◯  Productos y Ventas</a></li>
-                            <li class="locuar"><a href="{% url 'uplot' %}" class="item-menu">◯  Servicios y Veterinarios</a></li>
                         </ul>
                     </li>
 

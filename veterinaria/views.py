@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from api import models
 from . import forms
-from django.db.models.functions import TruncMonth
 from django.db.models import Count
 from datetime import datetime, timedelta
 import json
@@ -9,34 +8,59 @@ from django.utils import timezone
 from django.db.models import Q
 from django.http import Http404
 from django.core.paginator import Paginator
-from django.db.models.functions import TruncYear
 from datetime import date
 from django.db.models import Sum
+from decimal import Decimal
 
 # Vista para el index.html
 def dashboard(request):
     
-    #------------------------------------------------ WIDGETS PARTE SUPERIOR -------------------------------------------#
+    total_usuarios = models.Usuario.objects.count()
+    productos_activos = models.Producto.objects.filter(estado=True).count()
+    total_ventas = models.Venta.objects.count()
+    citas_pendientes = models.Cita.objects.filter(estado=False).count()
     
-    # Conteos para widgets de la parte superior
-    total_usuarios = models.Usuario.objects.count() 
-    total_mascotas = models.Mascota.objects.count()
-    total_productos = models.Producto.objects.count()  
-    total_servicios = models.Servicio.objects.count() 
+    
+    ingresos_mensuales_citas = models.Cita.objects.filter(estado=True) \
+        .values('fecha_cita__year', 'fecha_cita__month') \
+        .annotate(ingreso_total=Sum('costo_cita')) \
+        .order_by('fecha_cita__year', 'fecha_cita__month')
+    meses_citas = [f"{ingreso['fecha_cita__year']}-{ingreso['fecha_cita__month']:02d}" for ingreso in ingresos_mensuales_citas]
+    ingresos_citas = [float(ingreso['ingreso_total']) for ingreso in ingresos_mensuales_citas] 
+    
+    resultados_ventas = models.Venta.objects.values('fecha_venta__year', 'fecha_venta__month') \
+        .annotate(ganancia_total=Sum('total')) \
+        .order_by('fecha_venta__year', 'fecha_venta__month')
+    meses_ventas = [f"{resultado['fecha_venta__year']}-{resultado['fecha_venta__month']:02d}" for resultado in resultados_ventas]
+    ganancias_por_mes = [float(resultado['ganancia_total']) if isinstance(resultado['ganancia_total'], Decimal) else resultado['ganancia_total'] for resultado in resultados_ventas]
+    
+    meses_completos_2024 = [f"{año}-{mes:02d}" for año in range(2024, 2025) for mes in range(1, 13)]
+    
+    ingresos_completos_citas = [
+        ingresos_citas[meses_citas.index(month)] if month in meses_citas else 0 for month in meses_completos_2024
+    ]
+    
+    ganancias_completas_2024 = [
+        ganancias_por_mes[meses_ventas.index(month)] if month in meses_ventas else 0 for month in meses_completos_2024
+    ]
+    
+    ingresos_totales_por_mes = [ingresos_completos_citas[i] + ganancias_completas_2024[i] for i in range(len(meses_completos_2024))]
 
-    #------------------------------------------------ GRAFICO DE BARRAS -------------------------------------------#
-
-    #----------------------------------------------- GRAFICO DE PASTEL ---------------------------------------------#
-
-
-    context = {
-        'total_usuarios': total_usuarios,
-        'total_mascotas': total_mascotas,
-        'total_productos': total_productos,
-        'total_servicios': total_servicios, 
+    datos_ingresos_totales = {
+        'meses_completos_2024': meses_completos_2024,
+        'ingresos_totales_por_mes': ingresos_totales_por_mes
     }
 
-    return render(request, 'veterinaria/index.html', context)
+    datos_ingresos_totales_json = json.dumps(datos_ingresos_totales)
+    
+    
+    return render(request, 'veterinaria/index.html', {
+        'total_usuarios': total_usuarios,
+        'productos_activos': productos_activos,
+        'total_ventas': total_ventas,
+        'citas_pendientes': citas_pendientes,
+        'datos_ingresos_totales_json': datos_ingresos_totales_json
+    })
 
 def dashboard2(request):
     return render(request, 'veterinaria/index2.html')
@@ -272,6 +296,13 @@ def flot(request):
     intervalos_json = json.dumps(list(conteo_edades.keys()))
     conteo_json = json.dumps(list(conteo_edades.values()))
     
+    ##### SERVICIOS DE CITAS
+    servicios = models.Cita.objects.values('servicio_id__nombre').annotate(cantidad=Count('servicio_id')).order_by('-cantidad')
+    nombres_servicios = [servicio['servicio_id__nombre'] for servicio in servicios]
+    cantidades_servicios = [servicio['cantidad'] for servicio in servicios]
+    nombres_json = json.dumps(nombres_servicios)
+    cantidades_servicios__json = json.dumps(cantidades_servicios)
+    
     
     ##### CITAS PENDIENTES DE LA SEMANA
     hoy = date.today()
@@ -336,7 +367,9 @@ def flot(request):
         'estados_citas': estados_citas_json,
         'cantidades_estados': cantidades_estados_json,
         'data_ingresos_citas_json': data_ingresos_citas_json,
-        'data_horarios_json': data_horarios_json
+        'data_horarios_json': data_horarios_json,
+        'nombres_servicios': nombres_json,
+        'cantidades_servicios': cantidades_servicios__json,
     })
     
 
@@ -388,30 +421,33 @@ def inline(request):
     }
     data_ventas_productos_json = json.dumps(data_ventas_productos)
     
+    ##### GANANCIAS DE PRODUCTOS POR MES
+    resultados_ventas = models.Venta.objects.values('fecha_venta__year', 'fecha_venta__month') \
+        .annotate(ganancia_total=Sum('total')) \
+        .order_by('fecha_venta__year', 'fecha_venta__month')
+    meses_ventas = [f"{resultado['fecha_venta__year']}-{resultado['fecha_venta__month']:02d}" for resultado in resultados_ventas]
+    ganancias_por_mes = [float(resultado['ganancia_total']) if isinstance(resultado['ganancia_total'], Decimal) else resultado['ganancia_total'] for resultado in resultados_ventas]
+    meses_completos_2024 = [f"{año}-{mes:02d}" for año in range(2024, 2025) for mes in range(1, 13)]
+    ganancias_completas_2024 = [ganancias_por_mes[meses_ventas.index(mes)] if mes in meses_ventas else 0 for mes in meses_completos_2024]
+    datos_ventas_mensuales = {
+        'meses_completos_2024': meses_completos_2024,
+        'ganancias_completas_2024': ganancias_completas_2024
+    }
+    datos_ventas_mensuales_json = json.dumps(datos_ventas_mensuales)
+
     
     return render(request, 'veterinaria/pages/charts/inline.html', {
         'productos_inactivos': productos_inactivos,
         'productos_activos': productos_activos,
         'data_stock_json': data_stock_json,
         'data_stock_bajo_json': data_stock_bajo_json,
-        'data_ventas_productos_json': data_ventas_productos_json
+        'data_ventas_productos_json': data_ventas_productos_json,
+        'datos_ventas_mensuales_json': datos_ventas_mensuales_json,
     })
     
 
 def uplot(request):
-    
-    ##### SERVICIOS DE CITAS
-    servicios = models.Cita.objects.values('servicio_id__nombre').annotate(cantidad=Count('servicio_id')).order_by('-cantidad')
-    nombres_servicios = [servicio['servicio_id__nombre'] for servicio in servicios]
-    cantidades_servicios = [servicio['cantidad'] for servicio in servicios]
-    nombres_json = json.dumps(nombres_servicios)
-    cantidades_servicios__json = json.dumps(cantidades_servicios)
-    
-    
-    return render(request, 'veterinaria/pages/charts/uplot.html',{
-        'nombres_servicios': nombres_json,
-        'cantidades_servicios': cantidades_servicios__json,
-    })
+    return render(request, 'veterinaria/pages/charts/uplot.html')
 
 
 def tableUsuarios(request):
