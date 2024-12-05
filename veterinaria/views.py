@@ -545,6 +545,51 @@ def inline(request):
     }
     data_ventas_productos_json = json.dumps(data_ventas_productos)
     
+    ##### EXCEL PARA VENTAS
+    wb_ventas = Workbook()
+    ws_ventas = wb_ventas.active
+    ws_ventas.title = "Ventas de Productos"
+
+    amarillo_fondo = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+    borde = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+
+    encabezado_mes = "Mes"
+    encabezado_cantidad_ventas = "Cantidad de Ventas"
+    
+    ws_ventas.append([encabezado_mes, encabezado_cantidad_ventas])
+
+    for col_num in range(1, 3):  
+        cell = ws_ventas.cell(row=1, column=col_num)
+        cell.fill = amarillo_fondo  
+        cell.border = borde  
+        cell.alignment = cell.alignment.copy(horizontal='center', vertical='center')
+
+    for row_num, (mes, cantidad) in enumerate(zip(all_monthsH, all_cantidadesH), start=2):
+        ws_ventas.cell(row=row_num, column=1, value=mes).border = borde 
+        ws_ventas.cell(row=row_num, column=2, value=cantidad).border = borde 
+
+    ws_ventas.column_dimensions['A'].width = 15
+    ws_ventas.column_dimensions['B'].width = 20
+
+    tmp_dir_ventas = os.path.join(settings.BASE_DIR, 'tmp')
+    os.makedirs(tmp_dir_ventas, exist_ok=True)
+
+    archivo_excel_ventas = os.path.join(tmp_dir_ventas, 'ventas_productos.xlsx')
+
+    wb_ventas.save(archivo_excel_ventas)
+
+    resultado_subida_ventas = cloudinary.uploader.upload(archivo_excel_ventas, resource_type="raw")
+
+    url_descarga_ventas = resultado_subida_ventas['secure_url']
+
+    os.remove(archivo_excel_ventas)
+    
+    
     ##### GANANCIAS DE PRODUCTOS POR MES
     resultados_ventas = models.Venta.objects.values('fecha_venta__year', 'fecha_venta__month') \
         .annotate(ganancia_total=Sum('total')) \
@@ -558,6 +603,9 @@ def inline(request):
         'ganancias_completas_2024': ganancias_completas_2024
     }
     datos_ventas_mensuales_json = json.dumps(datos_ventas_mensuales)
+    
+    ###### EXCEL PARA LAS GANANCIAS
+    
 
     
     return render(request, 'veterinaria/pages/charts/inline.html', {
@@ -567,6 +615,7 @@ def inline(request):
         'data_stock_bajo_json': data_stock_bajo_json,
         'data_ventas_productos_json': data_ventas_productos_json,
         'datos_ventas_mensuales_json': datos_ventas_mensuales_json,
+        'url_descarga_ventas': url_descarga_ventas
     })
     
 
