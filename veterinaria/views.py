@@ -605,7 +605,48 @@ def inline(request):
     datos_ventas_mensuales_json = json.dumps(datos_ventas_mensuales)
     
     ###### EXCEL PARA LAS GANANCIAS
+    wb_ganancias = Workbook()
+    ws_ganancias = wb_ganancias.active
+    ws_ganancias.title = "Ganancias de Ventas"
+
+    amarillo_fondo = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+    borde = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+
+    encabezado_mes = "Mes"
+    encabezado_ganancia_total = "Ganancia Total"
     
+    ws_ganancias.append([encabezado_mes, encabezado_ganancia_total])
+
+    for col_num in range(1, 3):  
+        cell = ws_ganancias.cell(row=1, column=col_num)
+        cell.fill = amarillo_fondo  
+        cell.border = borde  
+        cell.alignment = cell.alignment.copy(horizontal='center', vertical='center')
+
+    for row_num, (mes, ganancia) in enumerate(zip(meses_completos_2024, ganancias_completas_2024), start=2):
+        ws_ganancias.cell(row=row_num, column=1, value=mes).border = borde 
+        ws_ganancias.cell(row=row_num, column=2, value=ganancia).border = borde 
+
+    ws_ganancias.column_dimensions['A'].width = 15
+    ws_ganancias.column_dimensions['B'].width = 20
+
+    tmp_dir_ganancias = os.path.join(settings.BASE_DIR, 'tmp')
+    os.makedirs(tmp_dir_ganancias, exist_ok=True)
+
+    archivo_excel_ganancias = os.path.join(tmp_dir_ganancias, 'ganancias_ventas.xlsx')
+
+    wb_ganancias.save(archivo_excel_ganancias)
+
+    resultado_subida_ganancias = cloudinary.uploader.upload(archivo_excel_ganancias, resource_type="raw")
+
+    url_descarga_ganancias = resultado_subida_ganancias['secure_url']
+
+    os.remove(archivo_excel_ganancias)
 
     
     return render(request, 'veterinaria/pages/charts/inline.html', {
@@ -615,7 +656,8 @@ def inline(request):
         'data_stock_bajo_json': data_stock_bajo_json,
         'data_ventas_productos_json': data_ventas_productos_json,
         'datos_ventas_mensuales_json': datos_ventas_mensuales_json,
-        'url_descarga_ventas': url_descarga_ventas
+        'url_descarga_ventas': url_descarga_ventas,
+        'url_descarga_ganancias': url_descarga_ganancias
     })
     
 
