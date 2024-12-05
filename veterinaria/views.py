@@ -16,6 +16,7 @@ import cloudinary
 import cloudinary.uploader
 from openpyxl import Workbook
 from django.conf import settings
+from openpyxl.styles import PatternFill, Border, Side
 
 # Vista para el index.html
 def dashboard(request):
@@ -307,6 +308,53 @@ def flot(request):
     data_json = json.dumps(data)
     
     
+    ###### EXCEL PARA EL REGISTRO DE USUARIOS
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Inscripciones de Mascotas"
+
+    yellow_fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  
+    border = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+
+    header_fecha = "Fecha"
+    header_cantidad = "Cantidad"
+    
+    ws.append([header_fecha, header_cantidad])
+    
+    for col_num in range(1, 3):  
+        cell = ws.cell(row=1, column=col_num)
+        cell.fill = yellow_fill  
+        cell.border = border  
+        cell.alignment = cell.alignment.copy(horizontal='center', vertical='center')
+
+    for row_num, (fecha, cantidad) in enumerate(zip(all_months, all_cantidades), start=2):
+        ws.cell(row=row_num, column=1, value=fecha).border = border 
+        ws.cell(row=row_num, column=2, value=cantidad).border = border  
+
+    ws.column_dimensions['A'].width = 15  
+    ws.column_dimensions['B'].width = 10  
+
+    tmp_dir = os.path.join(settings.BASE_DIR, 'tmp')
+    os.makedirs(tmp_dir, exist_ok=True)
+
+    excel_file = os.path.join(tmp_dir, 'mascotas_inscripcion.xlsx')
+
+    wb.save(excel_file)
+
+    upload_result = cloudinary.uploader.upload(excel_file, resource_type="raw")
+    
+    download_url = upload_result['secure_url']
+    
+    os.remove(excel_file)
+    
+    
+    
+    
     ##### EDADES DE LOS USUARIOS
     usuarios = models.Usuario.objects.filter(fecha_nacimiento__isnull=False)
     edades = []
@@ -400,6 +448,7 @@ def flot(request):
         'data_horarios_json': data_horarios_json,
         'nombres_servicios': nombres_json,
         'cantidades_servicios': cantidades_servicios__json,
+        'download_url': download_url,
     })
     
 
