@@ -59,13 +59,59 @@ def dashboard(request):
 
     datos_ingresos_totales_json = json.dumps(datos_ingresos_totales)
     
+    ##### EXCEL PARA GANANCIAS TOTALES
+    wb_ingresos_totales = Workbook()
+    ws_ingresos_totales = wb_ingresos_totales.active
+    ws_ingresos_totales.title = "Ingresos Totales"
+
+    amarillo_fondo = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+    borde = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
+
+    encabezado_mes = "Mes"
+    encabezado_ingreso_total = "Ingreso Total"
+    
+    ws_ingresos_totales.append([encabezado_mes, encabezado_ingreso_total])
+
+    for col_num in range(1, 3):  
+        cell = ws_ingresos_totales.cell(row=1, column=col_num)
+        cell.fill = amarillo_fondo  
+        cell.border = borde  
+        cell.alignment = cell.alignment.copy(horizontal='center', vertical='center')
+
+    for row_num, (mes, ingreso_total) in enumerate(zip(meses_completos_2024, ingresos_totales_por_mes), start=2):
+        ws_ingresos_totales.cell(row=row_num, column=1, value=mes).border = borde 
+        ws_ingresos_totales.cell(row=row_num, column=2, value=ingreso_total).border = borde 
+
+    ws_ingresos_totales.column_dimensions['A'].width = 15
+    ws_ingresos_totales.column_dimensions['B'].width = 20
+
+    tmp_dir_ingresos_totales = os.path.join(settings.BASE_DIR, 'tmp')
+    os.makedirs(tmp_dir_ingresos_totales, exist_ok=True)
+
+    archivo_excel_ingresos_totales = os.path.join(tmp_dir_ingresos_totales, 'ingresos_totales.xlsx')
+
+    wb_ingresos_totales.save(archivo_excel_ingresos_totales)
+
+    resultado_subida_ingresos_totales = cloudinary.uploader.upload(archivo_excel_ingresos_totales, resource_type="raw")
+
+    url_descarga_ingresos_totales = resultado_subida_ingresos_totales['secure_url']
+
+    os.remove(archivo_excel_ingresos_totales)
+    
+    
     
     return render(request, 'veterinaria/index.html', {
         'total_usuarios': total_usuarios,
         'productos_activos': productos_activos,
         'total_ventas': total_ventas,
         'citas_pendientes': citas_pendientes,
-        'datos_ingresos_totales_json': datos_ingresos_totales_json
+        'datos_ingresos_totales_json': datos_ingresos_totales_json,
+        'url_descarga_ingresos_totales': url_descarga_ingresos_totales
     })
 
 def dashboard2(request):
