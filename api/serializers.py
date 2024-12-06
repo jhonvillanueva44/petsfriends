@@ -174,25 +174,6 @@ class CitaSerializer(serializers.ModelSerializer):
             'cita_id', 'usuario_id', 'mascota_id', 'servicio_id', 'razon', 
             'observaciones', 'fecha_cita', 'horario_id', 'costo_cita', 'estado'
         ]
-        
-class CitaDeleteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Cita
-        fields = ['cita_id', 'usuario_id']  # Solo necesitamos validar cita_id y usuario_id
-
-    def validate(self, data):
-        """
-        Validamos si la cita existe para el usuario antes de proceder con el borrado.
-        """
-        usuario_id = self.context['request'].parser_context['kwargs']['usuario_id']
-        cita_id = self.context['request'].parser_context['kwargs']['cita_id']
-        
-        # Verificamos que la cita exista para este usuario y con este cita_id
-        cita = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id).first()
-        if not cita:
-            raise serializers.ValidationError("Cita no encontrada para este usuario.")
-        
-        return data
 
 # Serializer para HistorialMascota  
 class HistorialMascotaSerializer(serializers.ModelSerializer):
