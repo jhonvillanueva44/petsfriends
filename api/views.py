@@ -264,18 +264,35 @@ class CitasPorUsuario(generics.ListAPIView):
         return models.Cita.objects.filter(usuario_id=usuario_id)
     
 class CitasPorUsuarioUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Cita.objects.all()
     serializer_class = serializers.CitaSerializer
 
     def get_queryset(self):
         usuario_id = self.kwargs['usuario_id']
         cita_id = self.kwargs['cita_id']
-        return models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
+        
+        # Añadimos algunas validaciones para verificar la existencia de usuario y cita
+        try:
+            queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
+            
+            if not queryset.exists():
+                raise NotFound(detail="Cita no encontrada para este usuario.")
+            
+            return queryset
+
+        except Exception as e:
+            raise NotFound(detail=f"Error en la consulta: {str(e)}")
 
     def get_serializer_context(self):
+        # Contexto de la serialización para permitir actualizaciones parciales
         context = super().get_serializer_context()
-        context['partial'] = True 
+        context['partial'] = True
         return context
+
+    def handle_exception(self, exc):
+        # Método para manejar las excepciones y mejorar el manejo de errores
+        response = super().handle_exception(exc)
+        # Puedes personalizar la respuesta aquí si deseas (por ejemplo, agregar más detalles al error)
+        return response
     
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
