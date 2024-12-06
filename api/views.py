@@ -263,7 +263,7 @@ class CitasPorUsuario(generics.ListAPIView):
         usuario_id = self.kwargs['usuario_id']
         return models.Cita.objects.filter(usuario_id=usuario_id)
     
-# Vista para obtener la lista de historiales
+# Vista para obtener la lista de historialess
 class HistorialMascotaList(generics.ListAPIView):
     queryset = models.HistorialMascota.objects.all()  
     serializer_class = serializers.HistorialMascotaSerializer
