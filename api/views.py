@@ -270,9 +270,10 @@ class CitasPorUsuarioDelete(generics.RetrieveDestroyAPIView):
         usuario_id = self.kwargs['usuario_id']
         cita_id = self.kwargs['cita_id']
 
-        # Verificar si la cita existe para el usuario
+        # Filtramos la cita por usuario_id y cita_id
         queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
 
+        # Si no existe la cita para el usuario, lanzamos un error
         if not queryset.exists():
             raise NotFound(detail="Cita no encontrada para este usuario.")
 
