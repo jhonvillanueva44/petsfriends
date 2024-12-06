@@ -55,6 +55,8 @@ urlpatterns = [
     # URLs para Venta
     path('ventas/', views.VentaListCreate.as_view(), name='venta-list-create'),
     path('ventas/<int:pk>/', views.VentaRetrieveUpdateDestroy.as_view(), name='venta-retrieve-update-destroy'),
+    path('ventas/usuario/<int:usuario_id>/', views.VentasPorUsuario.as_view(), name='ventas-por-usuario'),
+
     
     # URLs para Mascota
     path('mascotas/', views.MascotaListCreate.as_view(), name='mascota-list-create'),

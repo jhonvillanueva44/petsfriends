@@ -169,6 +169,13 @@ class VentaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Venta.objects.all()
     serializer_class = serializers.VentaSerializer
     
+class VentasPorUsuario(generics.ListAPIView):
+    serializer_class = serializers.VentaSerializer
+
+    def get_queryset(self):
+        usuario_id = self.kwargs['usuario_id']
+        return models.Venta.objects.filter(usuario_id=usuario_id)
+    
 # Vistas para Mascota
 class MascotaListCreate(generics.ListCreateAPIView):
     serializer_class = serializers.MascotaSerializer
