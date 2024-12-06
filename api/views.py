@@ -263,36 +263,28 @@ class CitasPorUsuario(generics.ListAPIView):
         usuario_id = self.kwargs['usuario_id']
         return models.Cita.objects.filter(usuario_id=usuario_id)
     
-class CitasPorUsuarioUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class CitasPorUsuarioDelete(generics.RetrieveDestroyAPIView):
     serializer_class = serializers.CitaSerializer
 
     def get_queryset(self):
         usuario_id = self.kwargs['usuario_id']
         cita_id = self.kwargs['cita_id']
-        
-        # Añadimos algunas validaciones para verificar la existencia de usuario y cita
-        try:
-            queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
-            
-            if not queryset.exists():
-                raise NotFound(detail="Cita no encontrada para este usuario.")
-            
-            return queryset
 
-        except Exception as e:
-            raise NotFound(detail=f"Error en la consulta: {str(e)}")
+        # Verificar si la cita existe para el usuario
+        queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
 
-    def get_serializer_context(self):
-        # Contexto de la serialización para permitir actualizaciones parciales
-        context = super().get_serializer_context()
-        context['partial'] = True
-        return context
+        if not queryset.exists():
+            raise NotFound(detail="Cita no encontrada para este usuario.")
 
-    def handle_exception(self, exc):
-        # Método para manejar las excepciones y mejorar el manejo de errores
-        response = super().handle_exception(exc)
-        # Puedes personalizar la respuesta aquí si deseas (por ejemplo, agregar más detalles al error)
-        return response
+        return queryset
+
+    def delete(self, request, *args, **kwargs):
+        # Obtener la cita que se va a eliminar
+        cita = self.get_object()  # Recupera el objeto de la cita
+        cita.delete()  # Elimina la cita de la base de datos
+
+        # Responder con un mensaje de éxito
+        return Response({"detail": "Cita eliminada correctamente."}, status=204)
     
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
