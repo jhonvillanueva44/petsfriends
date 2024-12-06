@@ -263,24 +263,19 @@ class CitasPorUsuario(generics.ListAPIView):
         usuario_id = self.kwargs['usuario_id']
         return models.Cita.objects.filter(usuario_id=usuario_id)
     
-class CitasPorUsuarioUpdateDestroy(generics.UpdateAPIView, generics.DestroyAPIView):
+class CitasPorUsuarioUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CitaSerializer
 
     def get_queryset(self):
         usuario_id = self.kwargs['usuario_id']
         cita_id = self.kwargs['cita_id']
+        
         queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
         
         if not queryset.exists():
             raise NotFound(detail="Cita no encontrada para este usuario.")
         
         return queryset
-
-    def perform_destroy(self, instance):
-        instance.delete()
-
-    def perform_update(self, serializer):
-        serializer.save()
     
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
