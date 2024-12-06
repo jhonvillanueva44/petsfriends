@@ -554,7 +554,7 @@ def inline(request):
     
     
     ##### STOCK ALTO
-    productos_stock_alto = models.Producto.objects.filter(stock__gte=10, estado=True).values('nombre', 'stock')
+    productos_stock_alto = models.Producto.objects.filter(stock__gte=45, estado=True).values('nombre', 'stock')
     productos_stock_alto = productos_stock_alto.order_by('-stock')
     productos_nombres = [producto['nombre'] for producto in productos_stock_alto]
     productos_stock = [producto['stock'] for producto in productos_stock_alto]
@@ -566,7 +566,7 @@ def inline(request):
     
     
     ##### STOCK BAJO
-    productos_stock_bajo = models.Producto.objects.filter(stock__lt=4, estado=True).values('nombre', 'stock')
+    productos_stock_bajo = models.Producto.objects.filter(stock__lt=35, estado=True).values('nombre', 'stock')
     productos_stock_bajo = productos_stock_bajo.order_by('stock')
     productos_nombres_bajo = [producto['nombre'] for producto in productos_stock_bajo]
     productos_stock_bajo = [producto['stock'] for producto in productos_stock_bajo]
