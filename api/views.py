@@ -264,26 +264,27 @@ class CitasPorUsuario(generics.ListAPIView):
         return models.Cita.objects.filter(usuario_id=usuario_id)
     
 class CitasPorUsuarioDelete(generics.RetrieveDestroyAPIView):
-    serializer_class = serializers.CitaSerializer
+    serializer_class = serializers.CitaDeleteSerializer
+    queryset = models.Cita.objects.all()
 
     def get_queryset(self):
+        # Filtramos por usuario_id y cita_id
         usuario_id = self.kwargs['usuario_id']
         cita_id = self.kwargs['cita_id']
 
-        # Filtramos la cita por usuario_id y cita_id
-        queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
-
-        # Si no existe la cita para el usuario, lanzamos un error
-        if not queryset.exists():
+        # Verificamos que la cita existe para el usuario
+        cita = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
+        
+        if not cita.exists():
             raise NotFound(detail="Cita no encontrada para este usuario.")
-
-        return queryset
+        
+        return cita
 
     def delete(self, request, *args, **kwargs):
-        # Obtener la cita que se va a eliminar
-        cita = self.get_object()  # Recupera el objeto de la cita
-        cita.delete()  # Elimina la cita de la base de datos
-
+        # Recuperar el objeto de la cita
+        cita = self.get_object()
+        cita.delete()  # Eliminar la cita de la base de datos
+        
         # Responder con un mensaje de éxito
         return Response({"detail": "Cita eliminada correctamente."}, status=204)
     
