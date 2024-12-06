@@ -264,22 +264,17 @@ class CitasPorUsuario(generics.ListAPIView):
         return models.Cita.objects.filter(usuario_id=usuario_id)
     
 class CitasPorUsuarioUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Cita.objects.all()
     serializer_class = serializers.CitaSerializer
 
     def get_queryset(self):
         usuario_id = self.kwargs['usuario_id']
         cita_id = self.kwargs['cita_id']
-        queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
-        
-        if not queryset.exists():
-            raise NotFound(detail="Cita no encontrada para este usuario.")
-        
-        return queryset
+        return models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
 
     def get_serializer_context(self):
-        # Añadimos el contexto adicional, similar a tu ejemplo
         context = super().get_serializer_context()
-        context['partial'] = True  # Esto permite actualizaciones parciales
+        context['partial'] = True 
         return context
     
 # Vista para obtener la lista de historiales
