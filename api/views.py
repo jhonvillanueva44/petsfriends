@@ -5,6 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 
 # Vista para crear y listar usuarios
 class UsuariosListCreate(generics.ListCreateAPIView):
@@ -261,6 +262,25 @@ class CitasPorUsuario(generics.ListAPIView):
     def get_queryset(self):
         usuario_id = self.kwargs['usuario_id']
         return models.Cita.objects.filter(usuario_id=usuario_id)
+    
+class CitasPorUsuarioUpdateDestroy(generics.UpdateAPIView, generics.DestroyAPIView):
+    serializer_class = serializers.CitaSerializer
+
+    def get_queryset(self):
+        usuario_id = self.kwargs['usuario_id']
+        cita_id = self.kwargs['cita_id']
+        queryset = models.Cita.objects.filter(usuario_id=usuario_id, cita_id=cita_id)
+        
+        if not queryset.exists():
+            raise NotFound(detail="Cita no encontrada para este usuario.")
+        
+        return queryset
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+    def perform_update(self, serializer):
+        serializer.save()
     
 # Vista para obtener la lista de historiales
 class HistorialMascotaList(generics.ListAPIView):
